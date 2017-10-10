@@ -2,7 +2,7 @@ package com.dadino.quickstart2.core.adapters.holders
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import com.dadino.quickstart2.core.listeners.HolderClickListener
+import com.dadino.quickstart2.core.interfaces.HolderClickListener
 
 abstract class BaseHolder<T> @JvmOverloads constructor(itemView: View, withClickListener: Boolean = true) : RecyclerView.ViewHolder(itemView), View.OnClickListener, View.OnLongClickListener {
 
@@ -16,11 +16,9 @@ abstract class BaseHolder<T> @JvmOverloads constructor(itemView: View, withClick
 		bindView(itemView)
 	}
 
-	fun bindView(view: View) {
-		ButterKnife.bind(this, view)
-	}
+	abstract fun bindView(view: View)
 
-	abstract fun bindItem(item: T?, position: Int)
+	abstract fun bindItem(item: T, position: Int)
 
 	override fun onClick(v: View) {
 		clickListener?.onClick(clickedView(v), layoutPosition, false)

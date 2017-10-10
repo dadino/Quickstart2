@@ -2,10 +2,10 @@ package com.dadino.quickstart2.core.adapters
 
 import com.dadino.quickstart2.core.adapters.holders.BaseHolder
 
-abstract class BaseSingleItemAdapter<ITEM, HOLDER : BaseHolder<ITEM>> : com.dadino.quickstart2.core.BaseAdapter<ITEM, HOLDER>() {
+abstract class BaseSingleItemAdapter<ITEM, HOLDER : BaseHolder<ITEM>> : BaseAdapter<ITEM, HOLDER>() {
 
 	protected var layoutInflater: android.view.LayoutInflater? = null
-	protected var item: ITEM? = null
+	var item: ITEM? = null
 		set(item) {
 			field = item
 			notifyDataSetChanged()
@@ -29,7 +29,7 @@ abstract class BaseSingleItemAdapter<ITEM, HOLDER : BaseHolder<ITEM>> : com.dadi
 	}
 
 	override fun onBindViewHolder(holder: HOLDER, position: Int) {
-		bindItem(holder, item, position)
+		item?.let { bindItem(holder, it, position) }
 	}
 
 	override abstract fun getItemId(position: Int): Long
@@ -38,7 +38,7 @@ abstract class BaseSingleItemAdapter<ITEM, HOLDER : BaseHolder<ITEM>> : com.dadi
 		return position == itemCount - 1
 	}
 
-	fun bindItem(holder: HOLDER, item: ITEM?, position: Int) {
+	fun bindItem(holder: HOLDER, item: ITEM, position: Int) {
 		holder.bindItem(item, position)
 	}
 

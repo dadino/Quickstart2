@@ -1,7 +1,5 @@
 package com.dadino.quickstart2.core
 
-import android.arch.lifecycle.LifecycleActivity
+import android.support.v7.app.AppCompatActivity
 
-abstract class BaseActivity : LifecycleActivity() {
-
-}
+abstract class BaseActivity : AppCompatActivity()

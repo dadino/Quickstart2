@@ -7,7 +7,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.0-alpha2'
+        classpath 'com.android.tools.build:gradle:3.0.0-beta7'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7'
@@ -27,8 +27,7 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-
 ext {
-    supportLibVersion = '25.3.1'
-    archRoomVersion = '1.0.0-alpha1'
+    supportLibVersion = '26.1.0'
+    archRoomVersion = '1.0.0-beta1'
 }

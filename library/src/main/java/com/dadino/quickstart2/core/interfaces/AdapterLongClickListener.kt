@@ -1,4 +1,4 @@
-package com.dadino.quickstart2.core.listeners
+package com.dadino.quickstart2.core.interfaces
 
 import android.view.View
 

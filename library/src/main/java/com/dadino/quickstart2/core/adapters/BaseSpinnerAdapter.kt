@@ -1,14 +1,20 @@
 package com.dadino.quickstart2.core.adapters
 
+import android.content.Context
+import android.support.annotation.LayoutRes
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.SpinnerAdapter
 import com.dadino.quickstart2.core.adapters.holders.BaseHolder
 
-abstract class BaseSpinnerAdapter<ITEM, out HOLDER : BaseHolder<ITEM>> : android.widget.BaseAdapter(), android.widget.SpinnerAdapter {
-	private var items: List<ITEM>? = null
+abstract class BaseSpinnerAdapter<ITEM, out HOLDER : BaseHolder<ITEM>> : android.widget.BaseAdapter(), SpinnerAdapter {
+	private var items: List<ITEM> = ArrayList()
 	private var count: Int = 0
-	private var inflater: android.view.LayoutInflater? = null
+	private var inflater: LayoutInflater? = null
 
-	protected fun inflater(context: android.content.Context): android.view.LayoutInflater {
-		if (inflater == null) inflater = android.view.LayoutInflater.from(context)
+	protected fun inflater(context: Context): LayoutInflater {
+		if (inflater == null) inflater = LayoutInflater.from(context)
 		return inflater!!
 	}
 
@@ -23,22 +29,19 @@ abstract class BaseSpinnerAdapter<ITEM, out HOLDER : BaseHolder<ITEM>> : android
 
 	override fun getCount(): Int {
 		if (count >= 0) return count
-		if (items != null) {
-			count = items!!.size + additionalItemCount
-			return count
-		} else {
-			count = additionalItemCount
-			return count
-		}
+
+		count = items.size + additionalItemCount
+		return count
+
 	}
 
 	override fun getItem(position: Int): ITEM {
-		return items!![position]
+		return items[position]
 	}
 
 	abstract override fun getItemId(position: Int): Long
 
-	override fun getView(position: Int, convertView: android.view.View?, parent: android.view.ViewGroup): android.view.View {
+	override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
 		var convertview = convertView
 		val viewHolder: HOLDER
 		if (convertview == null) {
@@ -53,27 +56,22 @@ abstract class BaseSpinnerAdapter<ITEM, out HOLDER : BaseHolder<ITEM>> : android
 	}
 
 	fun getPosition(id: Long): Int {
-		if (getCount() == 0) return com.dadino.quickstart2.core.adapters.BaseSpinnerAdapter.Companion.ID_NOT_FOUND
+		if (getCount() == 0) return BaseSpinnerAdapter.Companion.ID_NOT_FOUND
 		return (0..getCount() - 1).firstOrNull { id == getItemId(it) }
-				?: com.dadino.quickstart2.core.adapters.BaseSpinnerAdapter.Companion.ID_NOT_FOUND
+				?: BaseSpinnerAdapter.Companion.ID_NOT_FOUND
 	}
 
-	override fun getDropDownView(position: Int, convertView: android.view.View, parent: android.view.ViewGroup): android.view.View {
+	override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View? {
 		return modifyDropDownView(getView(position, convertView, parent))
 	}
 
-	protected abstract fun modifyDropDownView(view: android.view.View): android.view.View
+	protected abstract fun modifyDropDownView(view: View?): View?
 
-	protected abstract fun createHolder(convertView: android.view.View): HOLDER
-	protected abstract fun inflateView(context: android.view.LayoutInflater, parent: android.view.ViewGroup): android.view.View
+	protected abstract fun createHolder(convertView: View): HOLDER
+	protected abstract fun inflateView(inflater: LayoutInflater, parent: ViewGroup): View
 
-	protected fun inflate(parent: android.view.ViewGroup, @android.support.annotation.LayoutRes layoutId: Int): android.view.View {
+	protected fun inflate(parent: ViewGroup, @LayoutRes layoutId: Int): View {
 		return inflater(parent.context).inflate(layoutId, parent, false)
-	}
-
-	inner class ViewHolder {
-
-		internal var spinner: android.widget.Spinner? = null
 	}
 
 	companion object {

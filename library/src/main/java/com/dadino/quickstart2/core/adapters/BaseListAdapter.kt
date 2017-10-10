@@ -3,22 +3,22 @@ package com.dadino.quickstart2.core.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.dadino.quickstart2.core.adapters.holders.BaseHolder
-import com.dadino.quickstart2.core.listeners.AdapterClickListener
-import com.dadino.quickstart2.core.listeners.AdapterLongClickListener
-import com.dadino.quickstart2.core.listeners.HolderClickListener
+import com.dadino.quickstart2.core.interfaces.AdapterClickListener
+import com.dadino.quickstart2.core.interfaces.AdapterLongClickListener
+import com.dadino.quickstart2.core.interfaces.HolderClickListener
 
 abstract class BaseListAdapter<ITEM, HOLDER : BaseHolder<ITEM>> : BaseAdapter<ITEM, HOLDER>(), HolderClickListener {
 
 	protected var layoutInflater: LayoutInflater? = null
-	protected var clickListener: AdapterClickListener<ITEM>? = null
-	protected var longClickListener: AdapterLongClickListener<ITEM>? = null
+	var clickListener: AdapterClickListener<ITEM>? = null
+	var longClickListener: AdapterLongClickListener<ITEM>? = null
 	var items: List<ITEM>? = null
 		set(items) {
 			field = items
-			count = BaseListAdapter.Companion.NOT_COUNTED
+			count = NOT_COUNTED
 			notifyDataSetChanged()
 		}
-	private var count = BaseListAdapter.Companion.NOT_COUNTED
+	private var count = NOT_COUNTED
 
 	init {
 		setHasStableIds(useStableId())
@@ -28,8 +28,8 @@ abstract class BaseListAdapter<ITEM, HOLDER : BaseHolder<ITEM>> : BaseAdapter<IT
 		return true
 	}
 
-	protected fun inflater(context: android.content.Context): android.view.LayoutInflater {
-		if (layoutInflater == null) layoutInflater = android.view.LayoutInflater.from(context)
+	protected fun inflater(context: android.content.Context): LayoutInflater {
+		if (layoutInflater == null) layoutInflater = LayoutInflater.from(context)
 		return layoutInflater!!
 	}
 
@@ -38,7 +38,7 @@ abstract class BaseListAdapter<ITEM, HOLDER : BaseHolder<ITEM>> : BaseAdapter<IT
 	}
 
 	override fun onBindViewHolder(holder: HOLDER, position: Int) {
-		bindItem(holder, getItem(position), position)
+		getItem(position)?.let { bindItem(holder, it, position) }
 	}
 
 	override fun getItemId(position: Int): Long {
@@ -57,13 +57,15 @@ abstract class BaseListAdapter<ITEM, HOLDER : BaseHolder<ITEM>> : BaseAdapter<IT
 			}
 		}
 
+	override fun getItemCount(): Int {
+		return mItemCount
+	}
+
 	protected abstract fun getItemIdSafe(position: Int): Long
 
-	val footersCount: Int
-		get() = 0
+	protected var footersCount: Int = 0
 
-	val headersCount: Int
-		get() = 0
+	protected var headersCount: Int = 0
 
 	fun isLastItem(position: Int): Boolean {
 		return position == mItemCount - 1
@@ -71,9 +73,9 @@ abstract class BaseListAdapter<ITEM, HOLDER : BaseHolder<ITEM>> : BaseAdapter<IT
 
 	fun getPosition(id: Long): Int {
 		if (mItemCount > 0) {
-			for (i in 0..mItemCount - 1) {
-				if (getItemId(i) == id) return i
-			}
+			(0 until mItemCount)
+					.filter { getItemId(it) == id }
+					.forEach { return it }
 		}
 		return -1
 	}
@@ -81,14 +83,14 @@ abstract class BaseListAdapter<ITEM, HOLDER : BaseHolder<ITEM>> : BaseAdapter<IT
 	fun getPosition(item: ITEM?, comparator: java.util.Comparator<ITEM>): Int {
 		if (item == null) return -1
 		if (mItemCount > 0) {
-			for (i in 0..mItemCount - 1) {
-				if (comparator.compare(getItem(i), item) == 0) return i
-			}
+			(0 until mItemCount)
+					.filter { comparator.compare(getItem(it), item) == 0 }
+					.forEach { return it }
 		}
 		return -1
 	}
 
-	fun bindItem(holder: HOLDER, item: ITEM?, position: Int) {
+	open fun bindItem(holder: HOLDER, item: ITEM, position: Int) {
 		holder.bindItem(item, position)
 		holder.clickListener = (this)
 	}
@@ -111,9 +113,9 @@ abstract class BaseListAdapter<ITEM, HOLDER : BaseHolder<ITEM>> : BaseAdapter<IT
 		}
 	}
 
-	protected abstract fun getHolder(parent: android.view.ViewGroup, viewType: Int): HOLDER
+	protected abstract fun getHolder(parent: ViewGroup, viewType: Int): HOLDER
 
-	protected fun inflate(parent: android.view.ViewGroup, @android.support.annotation.LayoutRes layoutId: Int): android.view.View {
+	protected fun inflate(parent: ViewGroup, @android.support.annotation.LayoutRes layoutId: Int): android.view.View {
 		return inflater(parent.context).inflate(layoutId, parent, false)
 	}
 
