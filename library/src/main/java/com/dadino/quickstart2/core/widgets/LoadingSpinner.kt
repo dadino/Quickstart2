@@ -7,6 +7,7 @@ import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.View
 import android.widget.*
+import com.dadino.quickstart2.core.R
 import com.dadino.quickstart2.core.adapters.BaseSpinnerAdapter
 
 abstract class LoadingSpinner<T : BaseSpinnerAdapter<*, *>> : FrameLayout {

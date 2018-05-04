@@ -9,6 +9,7 @@ import android.support.v7.widget.AppCompatEditText
 import android.support.v7.widget.AppCompatTextView
 import android.util.AttributeSet
 import android.widget.TextView
+import com.dadino.quickstart2.core.R
 
 class CompoundVectorTextView : AppCompatTextView {
 	constructor(context: Context) : super(context)

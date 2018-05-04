@@ -6,6 +6,7 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.widget.TextView
+import com.dadino.quickstart2.core.R
 import com.dadino.quickstart2.core.adapters.BaseAdapter
 import com.dadino.quickstart2.core.utils.Colors
 import com.dadino.quickstart2.core.utils.goneIf

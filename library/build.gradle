@@ -15,6 +15,7 @@ buildscript {
 
 publish {
     userOrg = 'dadino'
+    repoName = 'quickstart2'
     groupId = 'com.dadino.quickstart2'
     artifactId = 'core'
     publishVersion = '0.5.0'
@@ -23,6 +24,8 @@ publish {
     bintrayUser = 'dadino'
     bintrayKey='e23c567c5d38bdae821f0b74e855b07b37487762'
     //bintray.gpg.password=88dadino88
+    autoPublish = true
+    //./gradlew clean build bintrayUpload -PbintrayUser=dadino -PbintrayKey=e23c567c5d38bdae821f0b74e855b07b37487762 -PdryRun=false
 }
 
 

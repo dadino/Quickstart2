@@ -3,6 +3,7 @@ package com.dadino.quickstart2.core.utils
 import android.content.Context
 import android.support.annotation.ColorInt
 import android.util.TypedValue
+import com.dadino.quickstart2.core.R
 
 
 object Colors {

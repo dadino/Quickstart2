@@ -2,6 +2,7 @@ package com.dadino.quickstart2.core.utils
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import com.dadino.quickstart2.core.R
 
 
 object Drawables {

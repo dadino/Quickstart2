@@ -6,6 +6,7 @@ import android.support.design.widget.Snackbar
 import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.TextView
+import com.dadino.quickstart2.core.R
 import com.dadino.quickstart2.core.interfaces.ErrorHandler
 
 object ErrorSnackbar {

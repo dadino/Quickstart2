@@ -6,7 +6,9 @@ import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
+import com.dadino.quickstart2.core.R
 import com.dadino.quickstart2.core.utils.goneIf
+import kotlinx.android.synthetic.main.view_labeled_textview.view.*
 
 class LabeledTextView @kotlin.jvm.JvmOverloads constructor(
 		context: Context,

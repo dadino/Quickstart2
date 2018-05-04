@@ -1,3 +1,4 @@
 <resources>
-	<string name="app_name">My Library</string>
+    <string name="app_name">Quickstart2</string>
+    <string name="share_website_label">Condividi con...</string>
 </resources>
