@@ -2,39 +2,12 @@ package com.dadino.quickstart2.core.adapters.holders
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import com.dadino.quickstart2.core.interfaces.HolderClickListener
+import com.dadino.quickstart2.core.entities.UserActionable
 
-abstract class BaseHolder<T> @JvmOverloads constructor(itemView: View, withClickListener: Boolean = true) : RecyclerView.ViewHolder(itemView), View.OnClickListener, View.OnLongClickListener {
 
-	var clickListener: HolderClickListener? = null
-
-	init {
-		if (withClickListener) {
-			itemView.setOnClickListener(this)
-			itemView.setOnLongClickListener(this)
-		}
-		bindView(itemView)
-	}
-
-	abstract fun bindView(view: View)
+abstract class BaseHolder<in T> constructor(itemView: View) :
+		RecyclerView.ViewHolder(itemView),
+		UserActionable {
 
 	abstract fun bindItem(item: T, position: Int)
-
-	override fun onClick(v: View) {
-		clickListener?.onClick(clickedView(v), layoutPosition, false)
-	}
-
-	override fun onLongClick(v: View): Boolean {
-		clickListener?.onClick(longClickedView(v), layoutPosition, true)
-		return true
-	}
-
-	fun clickedView(parent: View): View {
-		return parent
-	}
-
-	fun longClickedView(parent: View): View {
-		return parent
-	}
-
 }

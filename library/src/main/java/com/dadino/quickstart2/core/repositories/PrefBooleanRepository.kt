@@ -1,13 +1,13 @@
 package com.dadino.quickstart2.core.repositories
 
-import android.content.Context
+import android.content.SharedPreferences
 import com.dadino.quickstart2.core.interfaces.IRepository
 import com.jakewharton.rxrelay2.BehaviorRelay
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.Single
 
-abstract class PrefBooleanRepository(context: Context) : PrefRepository(context), IBooleanRepository {
+abstract class PrefBooleanRepository(prefs: SharedPreferences) : PrefRepository(prefs), IBooleanRepository {
 
 	private var subject: BehaviorRelay<Boolean> = BehaviorRelay.create()
 
@@ -28,12 +28,12 @@ abstract class PrefBooleanRepository(context: Context) : PrefRepository(context)
 
 	override fun create(boolean: Boolean): Single<Boolean> {
 		return Single.just(editor().putBoolean(key, boolean)
-								   .commit())
+				.commit())
 	}
 
 	override fun delete(): Single<Boolean> {
 		return Single.just(editor().remove(key)
-								   .commit())
+				.commit())
 	}
 
 	override fun update(boolean: Boolean): Single<Boolean> {

@@ -7,21 +7,27 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SpinnerAdapter
 import com.dadino.quickstart2.core.adapters.holders.BaseHolder
+import com.dadino.quickstart2.core.entities.UserAction
+import com.dadino.quickstart2.core.entities.UserActionable
+import io.reactivex.Observable
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.subscribeBy
+import io.reactivex.subjects.PublishSubject
 
-abstract class BaseSpinnerAdapter<ITEM, out HOLDER : BaseHolder<ITEM>> : android.widget.BaseAdapter(), SpinnerAdapter {
-	private var items: List<ITEM> = ArrayList()
+abstract class BaseSpinnerAdapter<ITEM, HOLDER : BaseHolder<ITEM>> : android.widget.BaseAdapter(), SpinnerAdapter, UserActionable {
+	var items: List<ITEM> = ArrayList()
+		set(value) {
+			field = value
+			count = -1
+			notifyDataSetChanged()
+		}
+
 	private var count: Int = 0
 	private var inflater: LayoutInflater? = null
 
 	protected fun inflater(context: Context): LayoutInflater {
 		if (inflater == null) inflater = LayoutInflater.from(context)
 		return inflater!!
-	}
-
-	fun setItems(items: List<ITEM>) {
-		this.items = items
-		count = -1
-		notifyDataSetChanged()
 	}
 
 	val additionalItemCount: Int
@@ -47,6 +53,7 @@ abstract class BaseSpinnerAdapter<ITEM, out HOLDER : BaseHolder<ITEM>> : android
 		if (convertview == null) {
 			convertview = inflateView(inflater(parent.context), parent)
 			viewHolder = createHolder(convertview)
+			attachListenerToHolder(viewHolder)
 			convertview.tag = viewHolder
 		} else {
 			viewHolder = convertview.tag as HOLDER
@@ -57,7 +64,7 @@ abstract class BaseSpinnerAdapter<ITEM, out HOLDER : BaseHolder<ITEM>> : android
 
 	fun getPosition(id: Long): Int {
 		if (getCount() == 0) return BaseSpinnerAdapter.Companion.ID_NOT_FOUND
-		return (0..getCount() - 1).firstOrNull { id == getItemId(it) }
+		return (0 until getCount()).firstOrNull { id == getItemId(it) }
 				?: BaseSpinnerAdapter.Companion.ID_NOT_FOUND
 	}
 
@@ -65,7 +72,7 @@ abstract class BaseSpinnerAdapter<ITEM, out HOLDER : BaseHolder<ITEM>> : android
 		return modifyDropDownView(getView(position, convertView, parent))
 	}
 
-	protected abstract fun modifyDropDownView(view: View?): View?
+	protected abstract fun modifyDropDownView(view: View): View
 
 	protected abstract fun createHolder(convertView: View): HOLDER
 	protected abstract fun inflateView(inflater: LayoutInflater, parent: ViewGroup): View
@@ -74,8 +81,28 @@ abstract class BaseSpinnerAdapter<ITEM, out HOLDER : BaseHolder<ITEM>> : android
 		return inflater(parent.context).inflate(layoutId, parent, false)
 	}
 
+
+	private val userActionsOnItems = PublishSubject.create<UserAction>()
+
+	private val holderListeners = CompositeDisposable()
+
+	fun attachListenerToHolder(holder: HOLDER) {
+		holderListeners.add(
+				holder.userActions()
+						.subscribeBy(onNext = { userActionsOnItems.onNext(it) },
+								onError = { userActionsOnItems.onError(it) }
+						)
+		)
+	}
+
+	override fun userActions(): Observable<UserAction> {
+		return userActionsOnItems.doOnDispose {
+			holderListeners.dispose()
+		}
+	}
+
 	companion object {
 
-		val ID_NOT_FOUND = -1
+		const val ID_NOT_FOUND = -1
 	}
 }

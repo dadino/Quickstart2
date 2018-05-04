@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
-
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.novoda.bintray-release' // must be applied after your artifact generating plugin (eg. java / com.android.library)
 
 buildscript {
@@ -8,7 +9,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.novoda:bintray-release:0.5.0'
+        classpath 'com.novoda:bintray-release:0.8.1'
     }
 }
 
@@ -16,7 +17,7 @@ publish {
     userOrg = 'dadino'
     groupId = 'com.dadino.quickstart2'
     artifactId = 'core'
-    publishVersion = '0.1.1'
+    publishVersion = '0.5.0'
     desc = 'Basic toolbox to quickly start coding'
     website = 'https://github.com/dadino/basictoolbox'
     bintrayUser = 'dadino'
@@ -26,14 +27,13 @@ publish {
 
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    compileSdkVersion rootProject.compileSdk
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 26
-        versionCode 3
-        versionName "0.1.1"
+        minSdkVersion rootProject.minSdk
+        targetSdkVersion rootProject.targetSdk
+        versionCode 4
+        versionName "0.5.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -44,41 +44,68 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-
+    api fileTree(dir: 'libs', include: ['*.jar'])
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     testImplementation 'junit:junit:4.12'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestImplementation "com.android.support:support-annotations:${rootProject.supportLibVersion}"
 
     //Support
-    implementation "com.android.support:support-v4:${rootProject.supportLibVersion}"
-    implementation "com.android.support:appcompat-v7:${rootProject.supportLibVersion}"
-    implementation "com.android.support:design:${rootProject.supportLibVersion}"
-    implementation "com.android.support:recyclerview-v7:${rootProject.supportLibVersion}"
-    implementation "com.android.support:palette-v7:${rootProject.supportLibVersion}"
-    implementation "com.android.support:cardview-v7:${rootProject.supportLibVersion}"
-    
+    api 'com.android.support.constraint:constraint-layout:1.1.0'
+    api "com.android.support:appcompat-v7:${rootProject.supportLibVersion}"
+    api "com.android.support:support-v4:${rootProject.supportLibVersion}"
+    api "com.android.support:support-v13:${rootProject.supportLibVersion}"
+    api "com.android.support:design:${rootProject.supportLibVersion}"
+    api "com.android.support:recyclerview-v7:${rootProject.supportLibVersion}"
+    api "com.android.support:palette-v7:${rootProject.supportLibVersion}"
+    api "com.android.support:cardview-v7:${rootProject.supportLibVersion}"
+    api "com.android.support:customtabs:${rootProject.supportLibVersion}"
+
+    //Square
+    api 'com.squareup.retrofit2:retrofit:2.3.0'
+    api 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    api 'com.squareup.retrofit2:converter-gson:2.3.0'
+    api 'com.squareup.okhttp3:okhttp:3.8.0'
+    api('com.github.ihsanbal:LoggingInterceptor:2.0.2') {
+        exclude group: 'org.json', module: 'json'
+    }
+
     //Arch Components
-    implementation "android.arch.lifecycle:runtime:${rootProject.archRoomVersion}"
-    implementation "android.arch.lifecycle:extensions:${rootProject.archRoomVersion}"
-    implementation "android.arch.lifecycle:reactivestreams:${rootProject.archRoomVersion}"
+    api "android.arch.lifecycle:runtime:${rootProject.archRoomVersion}"
+    api "android.arch.lifecycle:extensions:${rootProject.archRoomVersionB}"
+    api "android.arch.lifecycle:reactivestreams:${rootProject.archRoomVersionB}"
     annotationProcessor "android.arch.lifecycle:compiler:${rootProject.archRoomVersion}"
     kapt "android.arch.lifecycle:compiler:${rootProject.archRoomVersion}"
 
     //RxJava
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.1'
-    implementation 'io.reactivex.rxjava2:rxkotlin:2.0.3'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    implementation 'com.jakewharton.rxrelay2:rxrelay:2.0.0'
-    implementation 'com.jakewharton.rx2:replaying-share-kotlin:2.0.0'
+    api 'io.reactivex.rxjava2:rxjava:2.1.6'
+    api 'io.reactivex.rxjava2:rxkotlin:2.0.3'
+    api 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    api 'com.jakewharton.rxrelay2:rxrelay:2.0.0'
+    api 'com.jakewharton.rx2:replaying-share-kotlin:2.0.0'
+    api 'com.jakewharton.rxbinding2:rxbinding-kotlin:2.0.0'
+    api 'com.jakewharton.rxbinding2:rxbinding-support-v4-kotlin:2.0.0'
+    api 'com.jakewharton.rxbinding2:rxbinding-appcompat-v7-kotlin:2.0.0'
+    api 'com.jakewharton.rxbinding2:rxbinding-design-kotlin:2.0.0'
+    api 'com.jakewharton.rxbinding2:rxbinding-recyclerview-v7-kotlin:2.0.0'
+    api 'com.github.kizitonwose:android-disposebag:0.1.0'
 
-    //Google Play Services
-    implementation 'com.google.android.gms:play-services-auth:11.4.2'
+    //Dagger
+    api "com.google.dagger:dagger:$rootProject.daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
+    api "com.google.dagger:dagger-android:$rootProject.daggerVersion"
+    kapt "com.google.dagger:dagger-android-processor:$rootProject.daggerVersion"
+    api "com.google.dagger:dagger-android-support:$rootProject.daggerVersion"
+    compileOnly 'org.glassfish:javax.annotation:10.0-b28'
 }
 
 tasks.withType(Javadoc).all {

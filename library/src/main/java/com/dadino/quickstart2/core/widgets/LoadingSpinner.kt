@@ -7,12 +7,22 @@ import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.View
 import android.widget.*
-import com.dadino.quickstart2.core.R
 import com.dadino.quickstart2.core.adapters.BaseSpinnerAdapter
 
 abstract class LoadingSpinner<T : BaseSpinnerAdapter<*, *>> : FrameLayout {
 
-	protected var mAdapter: T? = null
+	var adapter: T? = null
+		set(value) {
+			field = value
+			field?.registerDataSetObserver(object : DataSetObserver() {
+				override fun onChanged() {
+					super.onChanged()
+					updateLoadingState()
+				}
+			})
+			spinner.adapter = field
+			updateLoadingState()
+		}
 	private val progress: ProgressBar by lazy { findViewById<ProgressBar>(R.id.loading_spinner_progress) }
 	private val spinner: Spinner by lazy { findViewById<Spinner>(R.id.loading_spinner_spinner) }
 	private val label: TextView by lazy { findViewById<TextView>(R.id.loading_spinner_label) }
@@ -78,22 +88,6 @@ abstract class LoadingSpinner<T : BaseSpinnerAdapter<*, *>> : FrameLayout {
 		setListLoading(mLoading)
 	}
 
-	fun setAdapter(adapter: T) {
-		this.mAdapter = adapter
-		mAdapter!!.registerDataSetObserver(object : DataSetObserver() {
-			override fun onChanged() {
-				super.onChanged()
-				updateLoadingState()
-			}
-		})
-		spinner.adapter = mAdapter
-		updateLoadingState()
-	}
-
-	fun getAdapter(): T? {
-		return mAdapter
-	}
-
 	var selection: Int
 		get() = spinner.selectedItemPosition
 		set(position) {
@@ -103,9 +97,9 @@ abstract class LoadingSpinner<T : BaseSpinnerAdapter<*, *>> : FrameLayout {
 		}
 
 	var selectedId: Long
-		get() = mAdapter?.getItemId(spinner.selectedItemPosition) ?: 0
+		get() = adapter?.getItemId(spinner.selectedItemPosition) ?: 0
 		set(id) {
-			val wantedPosition = mAdapter?.getPosition(id) ?: 0
+			val wantedPosition = adapter?.getPosition(id) ?: 0
 			if (wantedPosition < 0 || wantedPosition == spinner.selectedItemPosition) return
 			spinner.setSelection(wantedPosition)
 		}

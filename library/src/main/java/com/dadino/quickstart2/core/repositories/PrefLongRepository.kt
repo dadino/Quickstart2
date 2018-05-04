@@ -1,13 +1,13 @@
 package com.dadino.quickstart2.core.repositories
 
-import android.content.Context
+import android.content.SharedPreferences
 import com.dadino.quickstart2.core.interfaces.IRepository
 import com.jakewharton.rxrelay2.BehaviorRelay
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.Single
 
-abstract class PrefLongRepository(context: Context) : PrefRepository(context), ILongRepository {
+abstract class PrefLongRepository(prefs: SharedPreferences) : PrefRepository(prefs), ILongRepository {
 
 	private var subject: BehaviorRelay<Long> = BehaviorRelay.create()
 
@@ -28,12 +28,12 @@ abstract class PrefLongRepository(context: Context) : PrefRepository(context), I
 
 	override fun create(long: Long): Single<Boolean> {
 		return Single.just(editor().putLong(key, long)
-								   .commit())
+				.commit())
 	}
 
 	override fun delete(): Single<Boolean> {
 		return Single.just(editor().remove(key)
-								   .commit())
+				.commit())
 	}
 
 	override fun update(long: Long): Single<Boolean> {

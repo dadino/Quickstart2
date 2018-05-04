@@ -1,6 +1,6 @@
 package com.dadino.quickstart2.core.entities
 
-class OneOffAction {
+class Signal {
 	private var consumed: Boolean = false
 
 	fun doAndConsume(action: () -> Unit) {
@@ -15,13 +15,13 @@ class OneOffAction {
 	}
 
 	companion object {
-		fun doAndConsume(oneOff: OneOffAction?, action: () -> Unit) {
-			oneOff?.let { it.doAndConsume { action() } }
+		fun doAndConsume(signal: Signal?, action: () -> Unit) {
+			signal?.let { it.doAndConsume { action() } }
 		}
 	}
 }
 
-class OneOffActionWithValue<out T>(private val value: T) {
+open class SignalWithValue<out T>(private val value: T) {
 	private var consumed: Boolean = false
 
 	fun doAndConsume(action: (T) -> Unit) {
@@ -36,8 +36,16 @@ class OneOffActionWithValue<out T>(private val value: T) {
 	}
 
 	companion object {
-		fun <T> doAndConsume(oneOff: OneOffActionWithValue<T>?, action: (T) -> Unit) {
-			oneOff?.let { it.doAndConsume { action(it) } }
+		fun <T> doAndConsume(signal: SignalWithValue<T>?, action: (T) -> Unit) {
+			signal?.let { it.doAndConsume { action(it) } }
+		}
+	}
+}
+
+class ErrorSignal(error: Throwable) : SignalWithValue<Throwable>(error) {
+	companion object {
+		fun showError(signal: ErrorSignal?, action: (Throwable) -> Unit) {
+			signal?.let { it.doAndConsume { action(it) } }
 		}
 	}
 }

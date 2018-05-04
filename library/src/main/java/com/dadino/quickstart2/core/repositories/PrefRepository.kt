@@ -1,19 +1,11 @@
 package com.dadino.quickstart2.core.repositories
 
-import android.content.Context
 import android.content.SharedPreferences
-import android.preference.PreferenceManager
 import com.dadino.quickstart2.core.interfaces.IRepository
 
-abstract class PrefRepository(context: Context) : IRepository, SharedPreferences.OnSharedPreferenceChangeListener {
-
-	private val prefs: SharedPreferences
-
-	protected var mContext: Context
+abstract class PrefRepository(private val prefs: SharedPreferences) : IRepository, SharedPreferences.OnSharedPreferenceChangeListener {
 
 	init {
-		mContext = context.applicationContext
-		prefs = PreferenceManager.getDefaultSharedPreferences(context)
 		prefs.registerOnSharedPreferenceChangeListener(this)
 	}
 

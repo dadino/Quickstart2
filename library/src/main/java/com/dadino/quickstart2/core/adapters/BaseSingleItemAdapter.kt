@@ -25,7 +25,9 @@ abstract class BaseSingleItemAdapter<ITEM, HOLDER : BaseHolder<ITEM>> : BaseAdap
 	}
 
 	override fun onCreateViewHolder(parent: android.view.ViewGroup, viewType: Int): HOLDER {
-		return getHolder(parent, viewType)
+		val holder = getHolder(parent, viewType)
+		attachListenerToHolder(holder)
+		return holder
 	}
 
 	override fun onBindViewHolder(holder: HOLDER, position: Int) {

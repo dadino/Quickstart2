@@ -4,9 +4,17 @@ import android.content.Context
 import android.support.design.widget.FloatingActionButton
 import android.util.AttributeSet
 
-class HideableFab : FloatingActionButton {
+open class HideableFab : FloatingActionButton {
 
-	private var mCanShow = true
+	var canShow = true
+		set(value) {
+			field = value
+			if (canShow.not()) {
+				hide()
+			} else {
+				show()
+			}
+		}
 
 	constructor(context: Context) : super(context)
 
@@ -14,15 +22,7 @@ class HideableFab : FloatingActionButton {
 
 	constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
-	fun setCanShow(canShow: Boolean) {
-		this.mCanShow = canShow
-		if (!mCanShow)
-			hide()
-		else
-			show()
-	}
-
 	override fun show() {
-		if (mCanShow) super.show()
+		if (canShow) super.show()
 	}
 }

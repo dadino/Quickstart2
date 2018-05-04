@@ -3,28 +3,25 @@ package com.dadino.quickstart2.core.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.dadino.quickstart2.core.adapters.holders.BaseHolder
-import com.dadino.quickstart2.core.interfaces.AdapterClickListener
-import com.dadino.quickstart2.core.interfaces.AdapterLongClickListener
-import com.dadino.quickstart2.core.interfaces.HolderClickListener
 
-abstract class BaseListAdapter<ITEM, HOLDER : BaseHolder<ITEM>> : BaseAdapter<ITEM, HOLDER>(), HolderClickListener {
+abstract class BaseListAdapter<ITEM, HOLDER : BaseHolder<ITEM>> : BaseAdapter<ITEM, HOLDER>() {
 
 	protected var layoutInflater: LayoutInflater? = null
-	var clickListener: AdapterClickListener<ITEM>? = null
-	var longClickListener: AdapterLongClickListener<ITEM>? = null
+
 	var items: List<ITEM>? = null
 		set(items) {
 			field = items
 			count = NOT_COUNTED
 			notifyDataSetChanged()
 		}
+
 	private var count = NOT_COUNTED
 
 	init {
-		setHasStableIds(useStableId())
+		this.setHasStableIds(this.useStableId())
 	}
 
-	protected fun useStableId(): Boolean {
+	open fun useStableId(): Boolean {
 		return true
 	}
 
@@ -33,8 +30,11 @@ abstract class BaseListAdapter<ITEM, HOLDER : BaseHolder<ITEM>> : BaseAdapter<IT
 		return layoutInflater!!
 	}
 
+
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HOLDER {
-		return getHolder(parent, viewType)
+		val holder = getHolder(parent, viewType)
+		attachListenerToHolder(holder)
+		return holder
 	}
 
 	override fun onBindViewHolder(holder: HOLDER, position: Int) {
@@ -45,15 +45,15 @@ abstract class BaseListAdapter<ITEM, HOLDER : BaseHolder<ITEM>> : BaseAdapter<IT
 		return if (getItem(position) != null) getItemIdSafe(position) else -1
 	}
 
-	val mItemCount: Int
+	private val mItemCount: Int
 		get() {
 			if (count >= 0) return count
-			if (this.items != null) {
+			return if (this.items != null) {
 				count = this.items!!.size + headersCount + footersCount
-				return count
+				count
 			} else {
 				count = headersCount + footersCount
-				return count
+				count
 			}
 		}
 
@@ -92,25 +92,15 @@ abstract class BaseListAdapter<ITEM, HOLDER : BaseHolder<ITEM>> : BaseAdapter<IT
 
 	open fun bindItem(holder: HOLDER, item: ITEM, position: Int) {
 		holder.bindItem(item, position)
-		holder.clickListener = (this)
 	}
 
 	fun getItem(position: Int): ITEM? {
 		if (position < headersCount) return null
 		val adjustedPosition = position - headersCount
-		if (adjustedPosition < mItemCount - headersCount - footersCount)
-			return this.items!![adjustedPosition]
+		return if (adjustedPosition < mItemCount - headersCount - footersCount)
+			this.items!![adjustedPosition]
 		else
-			return null
-	}
-
-	override fun onClick(v: android.view.View, position: Int, isLongClick: Boolean) {
-		val item: ITEM = getItem(position) ?: return
-		if (!isLongClick) {
-			clickListener?.onClicked(v, item)
-		} else {
-			longClickListener?.onLongClicked(v, item)
-		}
+			null
 	}
 
 	protected abstract fun getHolder(parent: ViewGroup, viewType: Int): HOLDER
@@ -121,6 +111,6 @@ abstract class BaseListAdapter<ITEM, HOLDER : BaseHolder<ITEM>> : BaseAdapter<IT
 
 	companion object {
 
-		private val NOT_COUNTED = -1
+		private const val NOT_COUNTED = -1
 	}
 }

@@ -13,6 +13,8 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import retrofit2.HttpException
+import retrofit2.Response
 
 inline fun <T : View> T.afterMeasured(crossinline f: T.() -> Unit) {
 	viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
@@ -50,6 +52,10 @@ fun <T : EditText> T.setTextWithoutTriggering(string: String, textWatcher: TextW
 		setSelection(text.length)
 	}
 	addTextChangedListener(textWatcher)
+}
+
+fun <T : EditText> T.setTextIfNew(string: String?) {
+	if (text.toString() != string ?: "") setTextKeepState(string ?: "")
 }
 
 fun String.isValidEmail(): Boolean {
@@ -115,6 +121,10 @@ inline fun <E, T : List<E>> T.modifyElement(crossinline compare: T.(E) -> Boolea
 
 fun String.isNullOrEmpty(): Boolean {
 	return TextUtils.isEmpty(this)
+}
+
+fun <E, T : Response<E>> T.toSingle(): Single<E> {
+	return if (isSuccessful) Single.just(body()!!) else Single.error<E>(HttpException(this))
 }
 
 fun <E, T : Flowable<E>> T.toAsync(): Flowable<E> {

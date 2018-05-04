@@ -6,8 +6,8 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.widget.TextView
-import com.dadino.quickstart2.core.R
 import com.dadino.quickstart2.core.adapters.BaseAdapter
+import com.dadino.quickstart2.core.utils.Colors
 import com.dadino.quickstart2.core.utils.goneIf
 
 open class RecyclerLayout<T : BaseAdapter<*, *>, E : RecyclerView.LayoutManager> : SwipeRefreshLayout {
@@ -29,9 +29,9 @@ open class RecyclerLayout<T : BaseAdapter<*, *>, E : RecyclerView.LayoutManager>
 	private fun init() {
 		inflate(context, R.layout.view_recycler_layout, this)
 
-		setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary, R.color
-				.colorAccentLight,
-								R.color.colorPrimaryLight)
+		setColorSchemeColors(Colors.getPrimaryColor(context),
+				Colors.getAccentColor(context),
+				Colors.getPrimaryDarkColor(context))
 		clipToPadding = false
 		initialize()
 	}
