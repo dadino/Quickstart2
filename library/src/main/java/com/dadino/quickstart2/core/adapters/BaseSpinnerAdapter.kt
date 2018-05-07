@@ -96,6 +96,7 @@ abstract class BaseSpinnerAdapter<ITEM, HOLDER : BaseHolder<ITEM>> : android.wid
 	}
 
 	override fun userActions(): Observable<UserAction> {
+
 		return userActionsOnItems.doOnDispose {
 			holderListeners.dispose()
 		}

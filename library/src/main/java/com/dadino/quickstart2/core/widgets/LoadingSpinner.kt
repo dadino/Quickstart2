@@ -24,9 +24,9 @@ abstract class LoadingSpinner<T : BaseSpinnerAdapter<*, *>> : FrameLayout {
 			spinner.adapter = field
 			updateLoadingState()
 		}
-	private val progress: ProgressBar by lazy { findViewById<ProgressBar>(R.id.loading_spinner_progress) }
-	private val spinner: Spinner by lazy { findViewById<Spinner>(R.id.loading_spinner_spinner) }
-	private val label: TextView by lazy { findViewById<TextView>(R.id.loading_spinner_label) }
+	protected val progress: ProgressBar by lazy { findViewById<ProgressBar>(R.id.loading_spinner_progress) }
+	protected val spinner: Spinner by lazy { findViewById<Spinner>(R.id.loading_spinner_spinner) }
+	protected val label: TextView by lazy { findViewById<TextView>(R.id.loading_spinner_label) }
 	private var mLoading: Boolean = false
 	private var mLabel: String? = null
 
