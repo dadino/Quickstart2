@@ -63,9 +63,9 @@ abstract class BaseSpinnerAdapter<ITEM, HOLDER : BaseHolder<ITEM>> : android.wid
 	}
 
 	fun getPosition(id: Long): Int {
-		if (getCount() == 0) return BaseSpinnerAdapter.Companion.ID_NOT_FOUND
+		if (getCount() == 0) return BaseSpinnerAdapter.ID_NOT_FOUND
 		return (0 until getCount()).firstOrNull { id == getItemId(it) }
-				?: BaseSpinnerAdapter.Companion.ID_NOT_FOUND
+				?: BaseSpinnerAdapter.ID_NOT_FOUND
 	}
 
 	override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View? {

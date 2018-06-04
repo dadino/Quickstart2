@@ -1,3 +1,5 @@
 <resources>
-	<string name="app_name">QuickStart2Core</string>
+    <string name="app_name">QuickStart2Core</string>
+    <string name="title_activity_spinner">SpinnerActivity</string>
+    <string name="login_example_data_selector">Dati esempio</string>
 </resources>

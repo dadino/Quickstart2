@@ -1,7 +1,6 @@
 package com.dadino.quickstart2.core.widgets
 
 import android.content.Context
-import android.database.DataSetObserver
 import android.support.annotation.StringRes
 import android.text.TextUtils
 import android.util.AttributeSet
@@ -9,26 +8,20 @@ import android.view.View
 import android.widget.*
 import com.dadino.quickstart2.core.R
 import com.dadino.quickstart2.core.adapters.BaseSpinnerAdapter
+import com.dadino.quickstart2.core.utils.gone
+import com.dadino.quickstart2.core.utils.visible
 
-abstract class LoadingSpinner<T : BaseSpinnerAdapter<*, *>> : FrameLayout {
+abstract class LoadingSpinner<ITEM, T : BaseSpinnerAdapter<ITEM, *>> : FrameLayout {
 
 	var adapter: T? = null
-		set(value) {
-			field = value
-			field?.registerDataSetObserver(object : DataSetObserver() {
-				override fun onChanged() {
-					super.onChanged()
-					updateLoadingState()
-				}
-			})
-			spinner.adapter = field
-			updateLoadingState()
-		}
+
 	protected val progress: ProgressBar by lazy { findViewById<ProgressBar>(R.id.loading_spinner_progress) }
 	protected val spinner: Spinner by lazy { findViewById<Spinner>(R.id.loading_spinner_spinner) }
 	protected val label: TextView by lazy { findViewById<TextView>(R.id.loading_spinner_label) }
-	private var mLoading: Boolean = false
-	private var mLabel: String? = null
+	protected val retryAction: Button by lazy { findViewById<Button>(R.id.loading_spinner_retry_action) }
+
+	private var labelString: String? = null
+	private var retryString: String? = null
 
 	constructor(context: Context) : super(context) {
 		init()
@@ -47,7 +40,8 @@ abstract class LoadingSpinner<T : BaseSpinnerAdapter<*, *>> : FrameLayout {
 	private fun init() {
 		View.inflate(context, R.layout.view_loading_spinner, this)
 
-		setLabel(mLabel)
+		setLabel(labelString)
+		retryAction.text = retryString
 		setOnClickListener { spinner.performClick() }
 		initialize()
 	}
@@ -55,18 +49,36 @@ abstract class LoadingSpinner<T : BaseSpinnerAdapter<*, *>> : FrameLayout {
 	private fun setLabelFromAttributeSet(context: Context, attrs: AttributeSet?) {
 		if (attrs != null) {
 			val a = context.obtainStyledAttributes(attrs, R.styleable.LoadingSpinner)
-			mLabel = a.getString(R.styleable.LoadingSpinner_ls_label)
+			labelString = a.getString(R.styleable.LoadingSpinner_ls_label)
+			retryString = a.getString(R.styleable.LoadingSpinner_ls_retry)
 			a.recycle()
 		}
 	}
 
 	protected fun initialize() {}
 
-	fun setListLoading(loading: Boolean) {
-		this.mLoading = loading
+	fun setState(items: List<ITEM>, loading: Boolean, inError: Boolean) {
+		if (loading.not() && inError) {
+			progress.gone()
+			spinner.gone()
+			label.gone()
+			retryAction.visible()
+		} else if (loading && inError.not()) {
+			progress.visible()
+			spinner.gone()
+			label.visible()
+			retryAction.gone()
+		} else if (loading.not() && inError.not()) {
+			progress.gone()
+			spinner.visible()
+			label.visible()
+			retryAction.gone()
+		}
 
-		progress.visibility = if (loading) View.VISIBLE else View.INVISIBLE
-		spinner.visibility = if (loading) View.INVISIBLE else View.VISIBLE
+		val sel = selectedId
+		adapter?.items = items
+		spinner.adapter = adapter
+		selectedId = sel
 	}
 
 	fun setLabel(@StringRes stringId: Int) {
@@ -85,8 +97,8 @@ abstract class LoadingSpinner<T : BaseSpinnerAdapter<*, *>> : FrameLayout {
 		spinner.onItemSelectedListener = listener
 	}
 
-	fun updateLoadingState() {
-		setListLoading(mLoading)
+	fun setOnRetryClickListener(listener: OnClickListener) {
+		retryAction.setOnClickListener(listener)
 	}
 
 	var selection: Int
@@ -98,7 +110,10 @@ abstract class LoadingSpinner<T : BaseSpinnerAdapter<*, *>> : FrameLayout {
 		}
 
 	var selectedId: Long
-		get() = adapter?.getItemId(spinner.selectedItemPosition) ?: 0
+		get() {
+			return if (spinner.selectedItemPosition >= 0)
+				adapter?.getItemId(spinner.selectedItemPosition) ?: 0 else -1
+		}
 		set(id) {
 			val wantedPosition = adapter?.getPosition(id) ?: 0
 			if (wantedPosition < 0 || wantedPosition == spinner.selectedItemPosition) return
@@ -109,5 +124,7 @@ abstract class LoadingSpinner<T : BaseSpinnerAdapter<*, *>> : FrameLayout {
 		super.setEnabled(enabled)
 		spinner.isEnabled = enabled
 		label.isEnabled = enabled
+		retryAction.isEnabled = enabled
 	}
+
 }

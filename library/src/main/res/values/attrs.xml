@@ -9,6 +9,7 @@
 
     <declare-styleable name="LoadingSpinner">
         <attr name="ls_label" format="string" />
+        <attr name="ls_retry" format="string" />
     </declare-styleable>
 
     <declare-styleable name="LabeledTextView">

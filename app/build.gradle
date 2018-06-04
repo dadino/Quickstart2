@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion rootProject.compileSdk
@@ -11,7 +11,7 @@ android {
         applicationId "com.dadino.quickstart2.core.sample"
 
         versionCode 1
-        versionName "1.0"
+        versionName "0.5.9"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -28,11 +28,9 @@ android {
 }
 
 dependencies {
+    compile project(path: ':library')
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    testImplementation 'junit:junit:4.12'
-    api "com.android.support:appcompat-v7:${rootProject.supportLibVersion}"
+
 }
+

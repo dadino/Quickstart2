@@ -1,2 +1,1 @@
-<manifest package="com.dadino.quickstart2.core"
-		  xmlns:android="http://schemas.android.com/apk/res/android"/>
+<manifest package="com.dadino.quickstart2.core" />

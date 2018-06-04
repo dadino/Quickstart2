@@ -18,11 +18,11 @@ publish {
     repoName = 'quickstart2'
     groupId = 'com.dadino.quickstart2'
     artifactId = 'core'
-    publishVersion = '0.5.2'
+    publishVersion = '0.5.9'
     desc = 'Basic toolbox to quickly start coding'
     website = 'https://github.com/dadino/basictoolbox'
     bintrayUser = 'dadino'
-    bintrayKey='e23c567c5d38bdae821f0b74e855b07b37487762'
+    bintrayKey = 'e23c567c5d38bdae821f0b74e855b07b37487762'
     //bintray.gpg.password=88dadino88
     autoPublish = true
     //./gradlew clean build bintrayUpload -PbintrayUser=dadino -PbintrayKey=e23c567c5d38bdae821f0b74e855b07b37487762 -PdryRun=false
@@ -35,8 +35,8 @@ android {
     defaultConfig {
         minSdkVersion rootProject.minSdk
         targetSdkVersion rootProject.targetSdk
-        versionCode 6
-        versionName "0.5.2"
+        versionCode 13
+        versionName "0.5.9"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 

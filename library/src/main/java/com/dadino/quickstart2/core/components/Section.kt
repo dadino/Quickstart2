@@ -7,8 +7,9 @@ import io.reactivex.rxkotlin.subscribeBy
 
 
 abstract class Section<STATE : Any, VM : BaseViewModel<STATE>, out VIEW : View>(val parent: SectionParent) : Actionable {
-	protected val view: VIEW = this.createView(parent)
-	protected var viewModel: VM = this.createViewModel(parent)
+	val view: VIEW = this.createView(parent)
+	var viewModel: VM = this.createViewModel(parent)
+		private set
 	override val userActionsHandler = object : UserActionsHandler() {
 		override fun collectUserActions(): Observable<UserAction> {
 			return this@Section.collectUserActions()
