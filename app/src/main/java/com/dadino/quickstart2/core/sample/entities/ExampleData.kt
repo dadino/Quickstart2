@@ -1,4 +1,4 @@
-package com.dadino.quickstart2.core.sample
+package com.dadino.quickstart2.core.sample.entities
 
 
 data class ExampleData(val id: Long,

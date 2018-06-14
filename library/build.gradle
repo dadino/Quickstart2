@@ -63,7 +63,7 @@ dependencies {
     androidTestImplementation "com.android.support:support-annotations:${rootProject.supportLibVersion}"
 
     //Support
-    api 'com.android.support.constraint:constraint-layout:1.1.1'
+    api 'com.android.support.constraint:constraint-layout:1.1.2'
     api "com.android.support:appcompat-v7:${rootProject.supportLibVersion}"
     api "com.android.support:support-v4:${rootProject.supportLibVersion}"
     api "com.android.support:support-v13:${rootProject.supportLibVersion}"
@@ -84,6 +84,7 @@ dependencies {
 
     //Arch Components
     api "android.arch.lifecycle:runtime:${rootProject.archRoomVersion}"
+    api "android.arch.lifecycle:common-java8:${rootProject.archRoomVersion}"
     api "android.arch.lifecycle:extensions:${rootProject.archRoomVersionB}"
     api "android.arch.lifecycle:reactivestreams:${rootProject.archRoomVersionB}"
     annotationProcessor "android.arch.lifecycle:compiler:${rootProject.archRoomVersion}"
@@ -100,7 +101,6 @@ dependencies {
     api 'com.jakewharton.rxbinding2:rxbinding-appcompat-v7-kotlin:2.0.0'
     api 'com.jakewharton.rxbinding2:rxbinding-design-kotlin:2.0.0'
     api 'com.jakewharton.rxbinding2:rxbinding-recyclerview-v7-kotlin:2.0.0'
-    api 'com.github.kizitonwose:android-disposebag:0.1.0'
 
     //Dagger
     api "com.google.dagger:dagger:$rootProject.daggerVersion"

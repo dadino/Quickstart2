@@ -1,4 +1,4 @@
-package com.dadino.quickstart2.core.sample
+package com.dadino.quickstart2.core.sample.widgets
 
 
 import android.content.Context
@@ -10,12 +10,25 @@ import android.widget.TextView
 import com.dadino.quickstart2.core.adapters.BaseSpinnerAdapter
 import com.dadino.quickstart2.core.adapters.holders.BaseHolder
 import com.dadino.quickstart2.core.entities.UserAction
+import com.dadino.quickstart2.core.entities.UserActionable
+import com.dadino.quickstart2.core.sample.R
+import com.dadino.quickstart2.core.sample.entities.ExampleData
+import com.dadino.quickstart2.core.sample.entities.OnExampleDataSelected
 import com.dadino.quickstart2.core.widgets.LoadingSpinner
+import com.dadino.quickstart2.core.widgets.OnItemSelected
 import io.reactivex.Observable
 
 
-class ExampleSpinner : LoadingSpinner<ExampleData, ExampleDataSpinnerAdapter> {
+class ExampleSpinner : LoadingSpinner<ExampleData, ExampleDataSpinnerAdapter>, UserActionable {
 
+	override fun userActions(): Observable<UserAction> {
+		return super.userActions().map {
+			when (it) {
+				is OnItemSelected -> OnExampleDataSelected(selectedItem)
+				else              -> it
+			}
+		}
+	}
 
 	constructor(context: Context) : super(context)
 

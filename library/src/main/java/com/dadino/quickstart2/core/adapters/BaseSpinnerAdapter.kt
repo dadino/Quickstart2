@@ -41,6 +41,10 @@ abstract class BaseSpinnerAdapter<ITEM, HOLDER : BaseHolder<ITEM>> : android.wid
 
 	}
 
+	fun findItem(position: Int): ITEM? {
+		return if (position in 0 until items.size) items[position] else null
+	}
+
 	override fun getItem(position: Int): ITEM {
 		return items[position]
 	}

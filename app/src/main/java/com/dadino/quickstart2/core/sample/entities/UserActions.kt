@@ -1,0 +1,13 @@
+package com.dadino.quickstart2.core.sample.entities
+
+import com.dadino.quickstart2.core.entities.UserAction
+
+
+class OnSpinnerRetryClicked : UserAction()
+class OnSpinnerIdleClicked : UserAction()
+class OnSpinnerLoadingClicked : UserAction()
+class OnSpinnerErrorClicked : UserAction()
+class OnSpinnerDoneClicked : UserAction()
+class OnGoToSecondPageClicked : UserAction()
+class OnExampleDataSelected(val item: ExampleData?) : UserAction()
+class OnSaveSessionRequested(val id: String) : UserAction()

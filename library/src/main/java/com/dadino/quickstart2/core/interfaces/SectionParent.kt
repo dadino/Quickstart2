@@ -1,14 +1,13 @@
-package com.dadino.quickstart2.core.components
+package com.dadino.quickstart2.core.interfaces
 
 import android.arch.lifecycle.ViewModelProvider
 import android.support.v7.app.AppCompatActivity
 import android.view.ViewGroup
 import com.dadino.quickstart2.core.entities.UserAction
 import com.jakewharton.rxrelay2.PublishRelay
-import com.kizitonwose.android.disposebag.DisposeBag
 
 
-interface SectionParent : ViewModelFactoryHolder, DisposeBagHolder {
+interface SectionParent : ViewModelFactoryHolder, DisposableLifecycleHolder {
 	fun getSectionContainer(): ViewGroup
 	fun showError(error: Throwable)
 	fun getActivity(): AppCompatActivity
@@ -19,6 +18,3 @@ interface ViewModelFactoryHolder {
 	fun viewModelFactory(): ViewModelProvider.Factory
 }
 
-interface DisposeBagHolder {
-	fun disposeBag(): DisposeBag
-}

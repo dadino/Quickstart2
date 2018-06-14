@@ -8,7 +8,7 @@
     tools:context=".SpinnerActivity"
     tools:showIn="@layout/activity_spinner">
 
-    <com.dadino.quickstart2.core.sample.ExampleSpinner
+    <com.dadino.quickstart2.core.sample.widgets.ExampleSpinner
         android:id="@+id/example_data_spinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -70,4 +70,22 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/example_data_error"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/example_data_go_to_second_page"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_16dp"
+        android:text="Second Page"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/example_data_save_session"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_16dp"
+        android:text="Save session"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>

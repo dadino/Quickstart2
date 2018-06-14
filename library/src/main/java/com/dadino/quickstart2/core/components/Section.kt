@@ -2,6 +2,7 @@ package com.dadino.quickstart2.core.components
 
 import android.view.View
 import com.dadino.quickstart2.core.entities.UserAction
+import com.dadino.quickstart2.core.interfaces.SectionParent
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.subscribeBy
 
@@ -21,9 +22,9 @@ abstract class Section<STATE : Any, VM : BaseViewModel<STATE>, out VIEW : View>(
 	}
 
 	init {
-		parent.disposeBag().add(viewModel.states().subscribeBy(onNext = { render(it) }))
-		parent.disposeBag().add(this.userActions().subscribe(viewModel.userActionsConsumer()))
-		parent.disposeBag().add(this.userActions().subscribe(parent.userActionsConsumer()))
+		parent.attachDisposableToResumePause { viewModel.states().subscribeBy(onNext = { render(it) }) }
+		parent.attachDisposableToResumePause { this.userActions().subscribe(viewModel.userActionsConsumer()) }
+		parent.attachDisposableToResumePause { this.userActions().subscribe(parent.userActionsConsumer()) }
 	}
 
 	abstract fun createView(sectionParent: SectionParent): VIEW
