@@ -18,7 +18,7 @@ abstract class LoadingSpinner<ITEM, T : BaseSpinnerAdapter<ITEM, *>> : FrameLayo
 	protected val progress: ProgressBar by lazy { findViewById<ProgressBar>(R.id.loading_spinner_progress) }
 	protected val spinner: Spinner by lazy { findViewById<Spinner>(R.id.loading_spinner_spinner) }
 	protected val label: TextView by lazy { findViewById<TextView>(R.id.loading_spinner_label) }
-	protected val retryAction: Button by lazy { findViewById<Button>(R.id.loading_spinner_retry_action) }
+	protected val retryAction: Button by lazy { findViewById<Button>(R.id.loading_spinner_action_retry) }
 
 	private var labelString: String? = null
 	private var retryString: String? = null

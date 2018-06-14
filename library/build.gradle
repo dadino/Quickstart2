@@ -18,7 +18,7 @@ publish {
     repoName = 'quickstart2'
     groupId = 'com.dadino.quickstart2'
     artifactId = 'core'
-    publishVersion = '0.5.9'
+    publishVersion = '0.5.12'
     desc = 'Basic toolbox to quickly start coding'
     website = 'https://github.com/dadino/basictoolbox'
     bintrayUser = 'dadino'
@@ -35,8 +35,8 @@ android {
     defaultConfig {
         minSdkVersion rootProject.minSdk
         targetSdkVersion rootProject.targetSdk
-        versionCode 13
-        versionName "0.5.9"
+        versionCode 14
+        versionName "0.5.12"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -63,7 +63,7 @@ dependencies {
     androidTestImplementation "com.android.support:support-annotations:${rootProject.supportLibVersion}"
 
     //Support
-    api 'com.android.support.constraint:constraint-layout:1.1.0'
+    api 'com.android.support.constraint:constraint-layout:1.1.1'
     api "com.android.support:appcompat-v7:${rootProject.supportLibVersion}"
     api "com.android.support:support-v4:${rootProject.supportLibVersion}"
     api "com.android.support:support-v13:${rootProject.supportLibVersion}"
