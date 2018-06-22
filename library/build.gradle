@@ -18,7 +18,7 @@ publish {
     repoName = 'quickstart2'
     groupId = 'com.dadino.quickstart2'
     artifactId = 'core'
-    publishVersion = '0.6.0'
+    publishVersion = '0.7.0'
     desc = 'Basic toolbox to quickly start coding'
     website = 'https://github.com/dadino/basictoolbox'
     bintrayUser = 'dadino'
@@ -35,8 +35,8 @@ android {
     defaultConfig {
         minSdkVersion rootProject.minSdk
         targetSdkVersion rootProject.targetSdk
-        versionCode 14
-        versionName "0.6.0"
+        versionCode 16
+        versionName "0.7.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -101,14 +101,6 @@ dependencies {
     api 'com.jakewharton.rxbinding2:rxbinding-appcompat-v7-kotlin:2.0.0'
     api 'com.jakewharton.rxbinding2:rxbinding-design-kotlin:2.0.0'
     api 'com.jakewharton.rxbinding2:rxbinding-recyclerview-v7-kotlin:2.0.0'
-
-    //Dagger
-    api "com.google.dagger:dagger:$rootProject.daggerVersion"
-    kapt "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
-    api "com.google.dagger:dagger-android:$rootProject.daggerVersion"
-    kapt "com.google.dagger:dagger-android-processor:$rootProject.daggerVersion"
-    api "com.google.dagger:dagger-android-support:$rootProject.daggerVersion"
-    compileOnly 'org.glassfish:javax.annotation:10.0-b28'
 }
 
 tasks.withType(Javadoc).all {

@@ -6,10 +6,9 @@ import com.dadino.quickstart2.core.entities.UserAction
 import com.dadino.quickstart2.core.sample.entities.*
 import com.dadino.quickstart2.core.sample.repositories.ISessionRepository
 import com.dadino.quickstart2.core.utils.toAsync
-import javax.inject.Inject
 
 
-class SpinnerViewModel @Inject constructor(private val sessionRepo: ISessionRepository) : BaseViewModel<SpinnerState>() {
+class SpinnerViewModel constructor(private val sessionRepo: ISessionRepository) : BaseViewModel<SpinnerState>() {
 	init {
 		sessionRepo.getCurrentSession()
 				.map<ModelCommand> {

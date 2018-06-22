@@ -4,45 +4,56 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import com.dadino.quickstart2.core.BaseActivity
 import com.dadino.quickstart2.core.entities.DoNotReactToThisAction
 import com.dadino.quickstart2.core.entities.UserAction
 import com.dadino.quickstart2.core.sample.entities.*
 import com.dadino.quickstart2.core.sample.viewmodels.SpinnerState
 import com.dadino.quickstart2.core.sample.viewmodels.SpinnerViewModel
+import com.dadino.quickstart2.core.sample.widgets.ExampleSpinner
 import com.jakewharton.rxbinding2.view.clicks
 import io.reactivex.Observable
-import kotlinx.android.synthetic.main.activity_spinner.*
+import org.koin.android.architecture.ext.viewModel
 
 class SpinnerActivity : BaseActivity() {
+	private val spinner: ExampleSpinner by lazy { findViewById<ExampleSpinner>(R.id.example_data_spinner) }
+	private val idle: Button by lazy { findViewById<Button>(R.id.example_data_idle) }
+	private val loading: Button by lazy { findViewById<Button>(R.id.example_data_loading) }
+	private val error: Button by lazy { findViewById<Button>(R.id.example_data_error) }
+	private val done: Button by lazy { findViewById<Button>(R.id.example_data_done) }
+	private val secondPage: Button by lazy { findViewById<Button>(R.id.example_data_go_to_second_page) }
+	private val saveSession: Button by lazy { findViewById<Button>(R.id.example_data_save_session) }
+
+	val spinnerViewModel: SpinnerViewModel by viewModel()
+
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
-		attachViewModel(SpinnerViewModel::class.java) { render(it) }
+		attachViewModel(spinnerViewModel) { render(it) }
 	}
 
 	override fun initViews() {
 		setContentView(R.layout.activity_spinner)
-		example_data_spinner.setOnRetryClickListener(View.OnClickListener { userActionsConsumer().accept(OnSpinnerRetryClicked()) })
-
+		spinner.setOnRetryClickListener(View.OnClickListener { userActionsConsumer().accept(OnSpinnerRetryClicked()) })
 	}
 
 	private fun render(state: SpinnerState) {
 		Log.d("Spinner", "State: $state")
-		example_data_spinner.setState(state.list, state.loading, state.error)
-		example_data_spinner.selectedId = state.selectedId ?: -1
+		spinner.setState(state.list, state.loading, state.error)
+		spinner.selectedId = state.selectedId ?: -1
 	}
 
 	override fun collectUserActions(): Observable<UserAction> {
 		return Observable.merge(listOf(
-				example_data_idle.clicks().map { OnSpinnerIdleClicked() },
-				example_data_loading.clicks().map { OnSpinnerLoadingClicked() },
-				example_data_error.clicks().map { OnSpinnerErrorClicked() },
-				example_data_done.clicks().map { OnSpinnerDoneClicked() },
-				example_data_go_to_second_page.clicks().map { OnGoToSecondPageClicked() },
-				example_data_save_session.clicks().map { OnSaveSessionRequested("First") },
-				example_data_spinner.userActions()
+				idle.clicks().map { OnSpinnerIdleClicked() },
+				loading.clicks().map { OnSpinnerLoadingClicked() },
+				error.clicks().map { OnSpinnerErrorClicked() },
+				done.clicks().map { OnSpinnerDoneClicked() },
+				secondPage.clicks().map { OnGoToSecondPageClicked() },
+				saveSession.clicks().map { OnSaveSessionRequested("First") },
+				spinner.userActions()
 		)
 		)
 	}

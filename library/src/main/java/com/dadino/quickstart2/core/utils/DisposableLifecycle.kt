@@ -54,8 +54,9 @@ abstract class DisposableLifecycleObserver(lifecycleOwner: LifecycleOwner, attac
 	private var disposable: Disposable? = null
 
 	init {
-		lifecycleOwner.lifecycle.currentState.isAtLeast(attachState)
-		disposable = createDisposable()
+		if (lifecycleOwner.lifecycle.currentState.isAtLeast(attachState)) {
+			disposable = createDisposable()
+		}
 	}
 
 	fun attach() {
