@@ -18,7 +18,7 @@ publish {
     repoName = 'quickstart2'
     groupId = 'com.dadino.quickstart2'
     artifactId = 'core'
-    publishVersion = '0.7.0'
+    publishVersion = rootProject.versionName
     desc = 'Basic toolbox to quickly start coding'
     website = 'https://github.com/dadino/basictoolbox'
     bintrayUser = 'dadino'
@@ -35,8 +35,8 @@ android {
     defaultConfig {
         minSdkVersion rootProject.minSdk
         targetSdkVersion rootProject.targetSdk
-        versionCode 16
-        versionName "0.7.0"
+        versionCode rootProject.versionCode
+        versionName rootProject.versionName
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 

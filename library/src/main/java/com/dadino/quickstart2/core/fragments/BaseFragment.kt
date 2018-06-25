@@ -16,15 +16,14 @@ import io.reactivex.rxkotlin.subscribeBy
 
 abstract class BaseFragment : android.support.v4.app.Fragment(), Actionable, DisposableLifecycleHolder {
 
-
 	override lateinit var userActionsHandler: UserActionsHandler
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		return internalInitViews()
+		return internalInitViews(inflater, container, savedInstanceState)
 	}
 
-	private fun internalInitViews(): View {
-		val view = initViews()
+	private fun internalInitViews(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+		val view = initViews(inflater, container, savedInstanceState)
 		userActionsHandler = object : UserActionsHandler() {
 			override fun collectUserActions(): Observable<UserAction> {
 				return this@BaseFragment.collectUserActions()
@@ -37,7 +36,7 @@ abstract class BaseFragment : android.support.v4.app.Fragment(), Actionable, Dis
 		return view
 	}
 
-	abstract fun initViews(): View
+	abstract fun initViews(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View
 
 	protected fun <S : Any, T : BaseViewModel<S>> attachViewModel(viewModel: T, render: (S) -> Unit): T {
 		attachToLifecycle(viewModel, render)
