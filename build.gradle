@@ -40,6 +40,6 @@ ext {
     minSdk = 16
     targetSdk = 27
 
-    versionCode = 17
-    versionName = "0.7.1"
+    versionCode = 18
+    versionName = "0.7.2"
 }

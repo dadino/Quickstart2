@@ -1,5 +1,6 @@
 package com.dadino.quickstart2.core.sample
 
+import android.arch.lifecycle.Lifecycle
 import android.os.Bundle
 import android.util.Log
 import com.dadino.quickstart2.core.BaseActivity
@@ -11,7 +12,7 @@ import org.koin.android.architecture.ext.viewModel
 
 class SecondActivity : BaseActivity() {
 
-	val spinnerViewModel: SpinnerViewModel by viewModel()
+	private val spinnerViewModel: SpinnerViewModel by viewModel()
 
 	override fun initViews() {
 		setContentView(R.layout.activity_second)
@@ -26,7 +27,7 @@ class SecondActivity : BaseActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
-		attachViewModel(spinnerViewModel) {
+		attachViewModel(spinnerViewModel, Lifecycle.State.RESUMED) {
 			render(it)
 		}
 	}

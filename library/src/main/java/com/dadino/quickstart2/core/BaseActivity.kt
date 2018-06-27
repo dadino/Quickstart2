@@ -1,5 +1,6 @@
 package com.dadino.quickstart2.core
 
+import android.arch.lifecycle.Lifecycle
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.dadino.quickstart2.core.components.Actionable
@@ -36,15 +37,25 @@ abstract class BaseActivity : AppCompatActivity(), Actionable, DisposableLifecyc
 
 	abstract fun initViews()
 
-	protected fun <S : Any, T : BaseViewModel<S>> attachViewModel(viewModel: T, render: (S) -> Unit): T {
-		attachToLifecycle(viewModel, render)
-
-		return viewModel
+	protected fun <S : Any, T : BaseViewModel<S>> attachViewModel(viewModel: T, minimumState: Lifecycle.State = Lifecycle.State.RESUMED, render: (S) -> Unit) {
+		attachToLifecycle(viewModel, minimumState, render)
 	}
 
-	private fun <S : Any, T : BaseViewModel<S>> attachToLifecycle(viewModel: T, render: (S) -> Unit) {
-		attachDisposableToResumePause { viewModel.states().subscribeBy(onNext = { render(it) }) }
-		attachDisposableToResumePause { userActions().subscribe(viewModel.userActionsConsumer()) }
+	private fun <S : Any, T : BaseViewModel<S>> attachToLifecycle(viewModel: T, minimumState: Lifecycle.State, render: (S) -> Unit) {
+		when (minimumState) {
+			Lifecycle.State.RESUMED -> {
+				attachDisposableToResumePause { viewModel.states().subscribeBy(onNext = { render(it) }) }
+				attachDisposableToResumePause { userActions().subscribe(viewModel.userActionsConsumer()) }
+			}
+			Lifecycle.State.STARTED -> {
+				attachDisposableToStartStop { viewModel.states().subscribeBy(onNext = { render(it) }) }
+				attachDisposableToStartStop { userActions().subscribe(viewModel.userActionsConsumer()) }
+			}
+			Lifecycle.State.CREATED -> {
+				attachDisposableToCreateDestroy { viewModel.states().subscribeBy(onNext = { render(it) }) }
+				attachDisposableToCreateDestroy { userActions().subscribe(viewModel.userActionsConsumer()) }
+			}
+		}
 	}
 
 	override fun attachDisposableToCreateDestroy(createDisposable: () -> Disposable) {
