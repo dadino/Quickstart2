@@ -3,7 +3,6 @@ package com.dadino.quickstart2.core.components
 import android.util.Log
 import com.dadino.quickstart2.core.entities.UserAction
 import com.dadino.quickstart2.core.entities.UserActionable
-import com.jakewharton.rx.replayingShare
 import com.jakewharton.rxrelay2.PublishRelay
 import io.reactivex.Observable
 
@@ -39,7 +38,8 @@ abstract class UserActionsHandler : UserActionable {
 				.doOnNext { Log.d("UserAction", "Original: $it") }
 				.map { interceptUserAction(it) }
 				.doOnNext { Log.d("UserAction", "Intercepted: $it") }
-				.replayingShare()
+				.publish()
+				.refCount()
 	}
 
 	init {

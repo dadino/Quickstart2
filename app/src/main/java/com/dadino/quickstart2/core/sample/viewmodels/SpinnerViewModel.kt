@@ -2,6 +2,7 @@ package com.dadino.quickstart2.core.sample.viewmodels
 
 import com.dadino.quickstart2.core.components.BaseViewModel
 import com.dadino.quickstart2.core.entities.ModelCommand
+import com.dadino.quickstart2.core.entities.Signal
 import com.dadino.quickstart2.core.entities.UserAction
 import com.dadino.quickstart2.core.sample.entities.*
 import com.dadino.quickstart2.core.sample.repositories.ISessionRepository
@@ -68,6 +69,10 @@ class SpinnerViewModel constructor(private val sessionRepo: ISessionRepository) 
 				session = when (command) {
 					is SetLoadSessionCompleted -> command.session
 					else                       -> previous.session
+				},
+				signal = when (command) {
+					is SetDone -> Signal()
+					else       -> previous.signal
 				}
 		)
 	}
@@ -78,4 +83,5 @@ data class SpinnerState(
 		val session: Session? = null,
 		val loading: Boolean = false,
 		val error: Boolean = false,
+		val signal: Signal? = null,
 		val list: List<ExampleData> = listOf())

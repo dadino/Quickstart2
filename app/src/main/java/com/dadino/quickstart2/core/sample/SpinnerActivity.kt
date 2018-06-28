@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.Toast
 import com.dadino.quickstart2.core.BaseActivity
 import com.dadino.quickstart2.core.entities.DoNotReactToThisAction
+import com.dadino.quickstart2.core.entities.Signal
 import com.dadino.quickstart2.core.entities.UserAction
 import com.dadino.quickstart2.core.sample.entities.*
 import com.dadino.quickstart2.core.sample.viewmodels.SpinnerState
@@ -43,6 +45,10 @@ class SpinnerActivity : BaseActivity() {
 		Log.d("Spinner", "State: $state")
 		spinner.setState(state.list, state.loading, state.error)
 		spinner.selectedId = state.selectedId ?: -1
+
+		Signal.doAndConsume(state.signal) {
+			Toast.makeText(this, "Signal received", Toast.LENGTH_LONG).show()
+		}
 	}
 
 	override fun collectUserActions(): Observable<UserAction> {
