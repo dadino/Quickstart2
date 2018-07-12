@@ -1,5 +1,6 @@
 package com.dadino.quickstart2.core.sample
 
+import android.arch.lifecycle.Lifecycle
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +12,8 @@ import com.dadino.quickstart2.core.entities.DoNotReactToThisAction
 import com.dadino.quickstart2.core.entities.Signal
 import com.dadino.quickstart2.core.entities.UserAction
 import com.dadino.quickstart2.core.sample.entities.*
+import com.dadino.quickstart2.core.sample.viewmodels.CounterState
+import com.dadino.quickstart2.core.sample.viewmodels.CounterViewModel
 import com.dadino.quickstart2.core.sample.viewmodels.SpinnerState
 import com.dadino.quickstart2.core.sample.viewmodels.SpinnerViewModel
 import com.dadino.quickstart2.core.sample.widgets.ExampleSpinner
@@ -26,14 +29,17 @@ class SpinnerActivity : BaseActivity() {
 	private val done: Button by lazy { findViewById<Button>(R.id.example_data_done) }
 	private val secondPage: Button by lazy { findViewById<Button>(R.id.example_data_go_to_second_page) }
 	private val saveSession: Button by lazy { findViewById<Button>(R.id.example_data_save_session) }
+	private val counterButton: Button by lazy { findViewById<Button>(R.id.example_data_counter) }
 
-	val spinnerViewModel: SpinnerViewModel by viewModel()
+	private val spinnerViewModel: SpinnerViewModel by viewModel()
+	private val counterViewModel: CounterViewModel by viewModel()
 
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
 		attachViewModel(spinnerViewModel) { render(it) }
+		attachViewModel(counterViewModel, Lifecycle.State.RESUMED) { render(it) }
 	}
 
 	override fun initViews() {
@@ -51,6 +57,11 @@ class SpinnerActivity : BaseActivity() {
 		}
 	}
 
+	private fun render(state: CounterState) {
+		Log.d("Counter", "State: $state")
+		counterButton.text = state.counter.toString()
+	}
+
 	override fun collectUserActions(): Observable<UserAction> {
 		return Observable.merge(listOf(
 				idle.clicks().map { OnSpinnerIdleClicked() },
@@ -59,6 +70,7 @@ class SpinnerActivity : BaseActivity() {
 				done.clicks().map { OnSpinnerDoneClicked() },
 				secondPage.clicks().map { OnGoToSecondPageClicked() },
 				saveSession.clicks().map { OnSaveSessionRequested("First") },
+				counterButton.clicks().map { OnAdvanceCounterClicked() },
 				spinner.userActions()
 		)
 		)

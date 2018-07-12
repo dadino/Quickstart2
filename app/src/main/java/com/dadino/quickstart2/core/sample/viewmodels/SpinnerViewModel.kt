@@ -1,8 +1,8 @@
 package com.dadino.quickstart2.core.sample.viewmodels
 
 import com.dadino.quickstart2.core.components.BaseViewModel
-import com.dadino.quickstart2.core.entities.ModelCommand
 import com.dadino.quickstart2.core.entities.Signal
+import com.dadino.quickstart2.core.entities.StateCommand
 import com.dadino.quickstart2.core.entities.UserAction
 import com.dadino.quickstart2.core.sample.entities.*
 import com.dadino.quickstart2.core.sample.repositories.ISessionRepository
@@ -12,7 +12,7 @@ import com.dadino.quickstart2.core.utils.toAsync
 class SpinnerViewModel constructor(private val sessionRepo: ISessionRepository) : BaseViewModel<SpinnerState>() {
 	init {
 		sessionRepo.getCurrentSession()
-				.map<ModelCommand> {
+				.map<StateCommand> {
 					SetLoadSessionCompleted(it)
 				}
 				.startWith(SetLoadSessionInProgress())
@@ -42,7 +42,7 @@ class SpinnerViewModel constructor(private val sessionRepo: ISessionRepository) 
 		return SpinnerState()
 	}
 
-	override fun reduce(previous: SpinnerState, command: ModelCommand): SpinnerState {
+	override fun reduce(previous: SpinnerState, command: StateCommand): SpinnerState {
 		return SpinnerState(
 				list = when (command) {
 					is SetDone       -> command.list

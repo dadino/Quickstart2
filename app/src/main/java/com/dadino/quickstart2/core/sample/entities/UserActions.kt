@@ -11,3 +11,5 @@ class OnSpinnerDoneClicked : UserAction()
 class OnGoToSecondPageClicked : UserAction()
 class OnExampleDataSelected(val item: ExampleData?) : UserAction()
 class OnSaveSessionRequested(val id: String) : UserAction()
+
+class OnAdvanceCounterClicked : UserAction()
