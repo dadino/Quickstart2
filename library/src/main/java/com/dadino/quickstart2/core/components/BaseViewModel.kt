@@ -37,7 +37,9 @@ abstract class BaseViewModel<STATE> : ViewModel() {
 				}
 				.doOnNext { Log.d(className(), "STATE: $it") }
 				.toFlowable(BackpressureStrategy.LATEST)
-				.replayingShare()
+				.distinctUntilChanged()
+				.replay(1)
+				.autoConnect(0)
 	}
 
 	init {
