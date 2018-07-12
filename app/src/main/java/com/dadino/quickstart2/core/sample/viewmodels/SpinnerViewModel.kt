@@ -1,6 +1,7 @@
 package com.dadino.quickstart2.core.sample.viewmodels
 
 import com.dadino.quickstart2.core.components.BaseViewModel
+import com.dadino.quickstart2.core.components.Reducer
 import com.dadino.quickstart2.core.entities.Signal
 import com.dadino.quickstart2.core.entities.StateCommand
 import com.dadino.quickstart2.core.entities.UserAction
@@ -38,10 +39,24 @@ class SpinnerViewModel constructor(private val sessionRepo: ISessionRepository) 
 		}
 	}
 
-	override fun initialModel(): SpinnerState {
+	override fun initialState(): SpinnerState {
 		return SpinnerState()
 	}
 
+	override fun reducer(): Reducer<SpinnerState> {
+		return SpinnerReducer()
+	}
+}
+
+data class SpinnerState(
+		val selectedId: Long? = 0,
+		val session: Session? = null,
+		val loading: Boolean = false,
+		val error: Boolean = false,
+		val signal: Signal? = null,
+		val list: List<ExampleData> = listOf())
+
+class SpinnerReducer : Reducer<SpinnerState> {
 	override fun reduce(previous: SpinnerState, command: StateCommand): SpinnerState {
 		return SpinnerState(
 				list = when (command) {
@@ -76,12 +91,5 @@ class SpinnerViewModel constructor(private val sessionRepo: ISessionRepository) 
 				}
 		)
 	}
-}
 
-data class SpinnerState(
-		val selectedId: Long? = 0,
-		val session: Session? = null,
-		val loading: Boolean = false,
-		val error: Boolean = false,
-		val signal: Signal? = null,
-		val list: List<ExampleData> = listOf())
+}
