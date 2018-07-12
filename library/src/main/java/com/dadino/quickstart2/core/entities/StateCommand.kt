@@ -6,3 +6,4 @@ open class StateCommand
 open class ModelCommand : StateCommand()
 
 class IdempotentCommand : StateCommand()
+class InitState : StateCommand()

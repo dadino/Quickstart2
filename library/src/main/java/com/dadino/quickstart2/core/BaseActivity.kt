@@ -44,17 +44,18 @@ abstract class BaseActivity : AppCompatActivity(), Actionable, DisposableLifecyc
 	private fun <S : Any, T : BaseViewModel<S>> attachToLifecycle(viewModel: T, minimumState: Lifecycle.State, render: (S) -> Unit) {
 		when (minimumState) {
 			Lifecycle.State.RESUMED -> {
-				attachDisposableToResumePause { viewModel.states().subscribeBy(onNext = { render(it) }) }
+				attachDisposableToResumePause { viewModel.states.subscribeBy(onNext = { render(it) }) }
 				attachDisposableToResumePause { userActions().subscribe(viewModel.userActionsConsumer()) }
 			}
 			Lifecycle.State.STARTED -> {
-				attachDisposableToStartStop { viewModel.states().subscribeBy(onNext = { render(it) }) }
+				attachDisposableToStartStop { viewModel.states.subscribeBy(onNext = { render(it) }) }
 				attachDisposableToStartStop { userActions().subscribe(viewModel.userActionsConsumer()) }
 			}
 			Lifecycle.State.CREATED -> {
-				attachDisposableToCreateDestroy { viewModel.states().subscribeBy(onNext = { render(it) }) }
+				attachDisposableToCreateDestroy { viewModel.states.subscribeBy(onNext = { render(it) }) }
 				attachDisposableToCreateDestroy { userActions().subscribe(viewModel.userActionsConsumer()) }
 			}
+			else                    -> throw RuntimeException("minimumState $minimumState not supported")
 		}
 	}
 

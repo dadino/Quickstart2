@@ -45,7 +45,7 @@ abstract class BaseFragment : android.support.v4.app.Fragment(), Actionable, Dis
 	}
 
 	private fun <S : Any, T : BaseViewModel<S>> attachToLifecycle(viewModel: T, render: (S) -> Unit) {
-		attachDisposableToResumePause { viewModel.states().subscribeBy(onNext = { render(it) }) }
+		attachDisposableToResumePause { viewModel.states.subscribeBy(onNext = { render(it) }) }
 		attachDisposableToResumePause { userActions().subscribe(viewModel.userActionsConsumer()) }
 	}
 

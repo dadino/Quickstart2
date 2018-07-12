@@ -22,7 +22,7 @@ abstract class Section<STATE : Any, VM : BaseViewModel<STATE>, out VIEW : View>(
 	}
 
 	init {
-		parent.attachDisposableToResumePause { viewModel.states().subscribeBy(onNext = { render(it) }) }
+		parent.attachDisposableToResumePause { viewModel.states.subscribeBy(onNext = { render(it) }) }
 		parent.attachDisposableToResumePause { this.userActions().subscribe(viewModel.userActionsConsumer()) }
 		parent.attachDisposableToResumePause { this.userActions().subscribe(parent.userActionsConsumer()) }
 	}
