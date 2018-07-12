@@ -2,7 +2,6 @@ package com.dadino.quickstart2.core.components
 
 import android.arch.lifecycle.ViewModel
 import android.util.Log
-import com.dadino.quickstart2.core.entities.InitState
 import com.dadino.quickstart2.core.entities.StateCommand
 import com.dadino.quickstart2.core.entities.UserAction
 import com.dadino.quickstart2.core.utils.toAsync
@@ -15,11 +14,9 @@ import io.reactivex.rxkotlin.subscribeBy
 
 abstract class BaseViewModel<STATE> : ViewModel() {
 
-	private var state: STATE? = null
-
 	private val userActionRelay: PublishRelay<UserAction> by lazy { PublishRelay.create<UserAction>() }
 	private val userActionFlowable: Flowable<UserAction>  by lazy {
-		userActionRelay.doOnNext { Log.d(modelName(), "<---- ${it.javaClass.simpleName}") }
+		userActionRelay.doOnNext { Log.d(className(), "<---- ${it.javaClass.simpleName}") }
 				.retry()
 				.doOnError { onError(it) }
 				.toFlowable(BackpressureStrategy.BUFFER)
@@ -33,28 +30,22 @@ abstract class BaseViewModel<STATE> : ViewModel() {
 
 	val states: Flowable<STATE>  by lazy {
 		stateCommandRelay
-				.startWith(InitState())
-				.doOnNext { Log.d(modelName(), "----> ${it.javaClass.simpleName}") }
-				.map {
-					state = reduce(state(), it)
-					state!!
+				.doOnNext { Log.d(className(), "----> ${it.javaClass.simpleName}") }
+				.scan(initialState()) { previous: STATE, command: StateCommand ->
+					Log.d(className(), "Reducing with command: ${command.javaClass.simpleName}")
+					reducer().reduce(previous, command)
 				}
-				.retry()
-				.doOnError { onError(it) }
+				.doOnNext { Log.d(className(), "STATE: $it") }
 				.toFlowable(BackpressureStrategy.LATEST)
-				.toAsync()
-				.replayingShare()
+				.distinctUntilChanged()
+				.replay(1)
+				.autoConnect(0)
 	}
 
 	init {
 		userActionFlowable.subscribeBy(onNext = {
 			reactToUserAction(it)
 		})
-	}
-
-	@Deprecated(message = "Do not use this method anymore, use the attribute states", replaceWith = ReplaceWith("states"), level = DeprecationLevel.ERROR)
-	fun states(): Flowable<STATE> {
-		throw RuntimeException("Do not use this method anymore, use the attribute states")
 	}
 
 	fun receiveUserAction(action: UserAction) {
@@ -70,22 +61,35 @@ abstract class BaseViewModel<STATE> : ViewModel() {
 	}
 
 	fun state(): STATE {
-		if (state == null) state = initialModel()
-		return state!!
+		return states.blockingLast()
 	}
 
-	abstract protected fun reactToUserAction(action: UserAction)
+	protected abstract fun reducer(): Reducer<STATE>
 
-	abstract fun initialModel(): STATE
+	protected abstract fun reactToUserAction(action: UserAction)
 
-	abstract fun reduce(previous: STATE, command: StateCommand): STATE
+	@Deprecated("User initialState()", ReplaceWith("initialState()"))
+	open fun initialModel(): STATE {
+		return initialState()
+	}
+
+	abstract fun initialState(): STATE
 
 	protected fun onError(error: Throwable) {
 		error.printStackTrace()
 	}
 
-	private fun modelName(): String {
+	private fun className(): String {
 		return javaClass.simpleName
 	}
 
+	@Deprecated(message = "Do not use this method anymore, use the attribute states", replaceWith = ReplaceWith("states"), level = DeprecationLevel.ERROR)
+	fun states(): Flowable<STATE> {
+		throw RuntimeException("Do not use this method anymore, use the attribute states")
+	}
+
+	@Deprecated("Replace with a Reducer", replaceWith = ReplaceWith(""), level = DeprecationLevel.ERROR)
+	fun reduce(previous: STATE, command: StateCommand): STATE {
+		throw RuntimeException("Replace with a Reducer")
+	}
 }
