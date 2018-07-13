@@ -3,6 +3,7 @@ package com.dadino.quickstart2.core.sample
 import android.arch.lifecycle.Lifecycle
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import com.dadino.quickstart2.core.BaseActivity
 import com.dadino.quickstart2.core.entities.UserAction
 import com.dadino.quickstart2.core.sample.entities.OnSaveSessionRequested
@@ -33,11 +34,15 @@ class SecondActivity : BaseActivity() {
 	}
 
 	override fun collectUserActions(): Observable<UserAction> {
-		return fab.clicks().map { OnSaveSessionRequested("Second") }
+		return fab.clicks().map {
+			OnSaveSessionRequested("Second")
+		}
 	}
 
 	private fun render(state: SpinnerState) {
 		Log.d("Second", "State: $state")
+
+		Toast.makeText(this, "Session: ${spinnerViewModel.state().session}", Toast.LENGTH_LONG).show()
 	}
 
 }

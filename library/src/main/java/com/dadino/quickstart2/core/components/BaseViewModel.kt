@@ -13,7 +13,8 @@ import io.reactivex.functions.Consumer
 import io.reactivex.rxkotlin.subscribeBy
 
 abstract class BaseViewModel<STATE> : ViewModel() {
-
+	private val reducer by lazy { reducer() }
+	private val initialState by lazy { initialState() }
 	private val userActionRelay: PublishRelay<UserAction> by lazy { PublishRelay.create<UserAction>() }
 	private val userActionFlowable: Flowable<UserAction>  by lazy {
 		userActionRelay.doOnNext { Log.d(className(), "<---- ${it.javaClass.simpleName}") }
@@ -31,12 +32,13 @@ abstract class BaseViewModel<STATE> : ViewModel() {
 	val states: Flowable<STATE>  by lazy {
 		stateCommandRelay
 				.doOnNext { Log.d(className(), "----> ${it.javaClass.simpleName}") }
-				.scan(initialState()) { previous: STATE, command: StateCommand ->
+				.scan(initialState) { previous: STATE, command: StateCommand ->
 					Log.d(className(), "Reducing with command: ${command.javaClass.simpleName}")
-					reducer().reduce(previous, command)
+					reducer.reduce(previous, command)
 				}
 				.doOnNext { Log.d(className(), "STATE: $it") }
 				.toFlowable(BackpressureStrategy.LATEST)
+				.toAsync()
 				.distinctUntilChanged()
 				.replay(1)
 				.autoConnect(0)
@@ -61,7 +63,7 @@ abstract class BaseViewModel<STATE> : ViewModel() {
 	}
 
 	fun state(): STATE {
-		return states.blockingLast()
+		return states.blockingMostRecent(initialState).first()
 	}
 
 	protected abstract fun reducer(): Reducer<STATE>
@@ -69,11 +71,11 @@ abstract class BaseViewModel<STATE> : ViewModel() {
 	protected abstract fun reactToUserAction(action: UserAction)
 
 	@Deprecated("User initialState()", ReplaceWith("initialState()"))
-	open fun initialModel(): STATE {
+	private fun initialModel(): STATE {
 		return initialState()
 	}
 
-	abstract fun initialState(): STATE
+	protected abstract fun initialState(): STATE
 
 	protected fun onError(error: Throwable) {
 		error.printStackTrace()

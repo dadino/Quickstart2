@@ -30,6 +30,7 @@ class SpinnerActivity : BaseActivity() {
 	private val secondPage: Button by lazy { findViewById<Button>(R.id.example_data_go_to_second_page) }
 	private val saveSession: Button by lazy { findViewById<Button>(R.id.example_data_save_session) }
 	private val counterButton: Button by lazy { findViewById<Button>(R.id.example_data_counter) }
+	private val counterStateButton: Button by lazy { findViewById<Button>(R.id.example_data_counter_state) }
 
 	private val spinnerViewModel: SpinnerViewModel by viewModel()
 	private val counterViewModel: CounterViewModel by viewModel()
@@ -71,6 +72,7 @@ class SpinnerActivity : BaseActivity() {
 				secondPage.clicks().map { OnGoToSecondPageClicked() },
 				saveSession.clicks().map { OnSaveSessionRequested("First") },
 				counterButton.clicks().map { OnAdvanceCounterClicked() },
+				counterStateButton.clicks().map { OnShowCounterStateClicked() },
 				spinner.userActions()
 		)
 		)
@@ -78,11 +80,15 @@ class SpinnerActivity : BaseActivity() {
 
 	override fun interceptUserAction(action: UserAction): UserAction {
 		return when (action) {
-			is OnGoToSecondPageClicked -> {
+			is OnGoToSecondPageClicked   -> {
 				startActivity(Intent(this, SecondActivity::class.java))
 				DoNotReactToThisAction()
 			}
-			else                       -> super.interceptUserAction(action)
+			is OnShowCounterStateClicked -> {
+				Toast.makeText(this, "Counter: ${counterViewModel.state().counter}", Toast.LENGTH_SHORT).show()
+				DoNotReactToThisAction()
+			}
+			else                         -> super.interceptUserAction(action)
 		}
 	}
 }
