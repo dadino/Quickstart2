@@ -27,7 +27,7 @@ class SpinnerViewModel constructor(private val sessionRepo: ISessionRepository) 
 				.subscribe()
 	}
 
-	override fun reactToUserAction(action: UserAction) {
+	override fun reactToUserAction(currentState: SpinnerState, action: UserAction) {
 		when (action) {
 			is OnSpinnerRetryClicked   -> pushCommand(SetInProgress())
 			is OnSpinnerIdleClicked    -> pushCommand(SetIdle())

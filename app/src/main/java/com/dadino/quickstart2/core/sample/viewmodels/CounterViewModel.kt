@@ -13,7 +13,7 @@ class CounterViewModel : BaseViewModel<CounterState>() {
 		return CounterReducer()
 	}
 
-	override fun reactToUserAction(action: UserAction) {
+	override fun reactToUserAction(currentState: CounterState, action: UserAction) {
 		when (action) {
 			is OnAdvanceCounterClicked -> pushCommand(AddToCounter())
 		}

@@ -46,7 +46,7 @@ abstract class BaseViewModel<STATE> : ViewModel() {
 
 	init {
 		userActionFlowable.subscribeBy(onNext = {
-			reactToUserAction(it)
+			reactToUserAction(state(), it)
 		})
 	}
 
@@ -68,12 +68,7 @@ abstract class BaseViewModel<STATE> : ViewModel() {
 
 	protected abstract fun reducer(): Reducer<STATE>
 
-	protected abstract fun reactToUserAction(action: UserAction)
-
-	@Deprecated("User initialState()", ReplaceWith("initialState()"))
-	private fun initialModel(): STATE {
-		return initialState()
-	}
+	abstract fun reactToUserAction(currentState: STATE, action: UserAction)
 
 	protected abstract fun initialState(): STATE
 

@@ -1,5 +1,6 @@
 package com.dadino.quickstart2.core.fragments
 
+import android.arch.lifecycle.Lifecycle
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -38,15 +39,28 @@ abstract class BaseFragment : android.support.v4.app.Fragment(), Actionable, Dis
 
 	abstract fun initViews(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View
 
-	protected fun <S : Any, T : BaseViewModel<S>> attachViewModel(viewModel: T, render: (S) -> Unit): T {
-		attachToLifecycle(viewModel, render)
+	protected fun <S : Any, T : BaseViewModel<S>> attachViewModel(viewModel: T, minimumState: Lifecycle.State = Lifecycle.State.RESUMED, render: (S) -> Unit): T {
+		attachToLifecycle(viewModel, minimumState, render)
 
 		return viewModel
 	}
 
-	private fun <S : Any, T : BaseViewModel<S>> attachToLifecycle(viewModel: T, render: (S) -> Unit) {
-		attachDisposableToResumePause { viewModel.states.subscribeBy(onNext = { render(it) }) }
-		attachDisposableToResumePause { userActions().subscribe(viewModel.userActionsConsumer()) }
+	private fun <S : Any, T : BaseViewModel<S>> attachToLifecycle(viewModel: T, minimumState: Lifecycle.State, render: (S) -> Unit) {
+		when (minimumState) {
+			Lifecycle.State.RESUMED -> {
+				attachDisposableToResumePause { viewModel.states.subscribeBy(onNext = { render(it) }) }
+				attachDisposableToResumePause { userActions().subscribe(viewModel.userActionsConsumer()) }
+			}
+			Lifecycle.State.STARTED -> {
+				attachDisposableToStartStop { viewModel.states.subscribeBy(onNext = { render(it) }) }
+				attachDisposableToStartStop { userActions().subscribe(viewModel.userActionsConsumer()) }
+			}
+			Lifecycle.State.CREATED -> {
+				attachDisposableToCreateDestroy { viewModel.states.subscribeBy(onNext = { render(it) }) }
+				attachDisposableToCreateDestroy { userActions().subscribe(viewModel.userActionsConsumer()) }
+			}
+			else                    -> throw RuntimeException("minimumState $minimumState not supported")
+		}
 	}
 
 	override fun attachDisposableToCreateDestroy(createDisposable: () -> Disposable) {
