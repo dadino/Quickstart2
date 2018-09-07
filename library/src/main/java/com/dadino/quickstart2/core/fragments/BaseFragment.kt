@@ -23,6 +23,11 @@ abstract class BaseFragment : android.support.v4.app.Fragment(), Actionable, Dis
 		return internalInitViews(inflater, container, savedInstanceState)
 	}
 
+	override fun onDestroyView() {
+		userActionsHandler.disconnect()
+		super.onDestroyView()
+	}
+
 	private fun internalInitViews(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 		val view = initViews(inflater, container, savedInstanceState)
 		userActionsHandler = object : UserActionsHandler() {
@@ -34,6 +39,7 @@ abstract class BaseFragment : android.support.v4.app.Fragment(), Actionable, Dis
 				return this@BaseFragment.interceptUserAction(action)
 			}
 		}
+		userActionsHandler.connect()
 		return view
 	}
 

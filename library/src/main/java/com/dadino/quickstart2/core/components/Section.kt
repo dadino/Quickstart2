@@ -19,7 +19,7 @@ abstract class Section<STATE : Any, VM : BaseViewModel<STATE>, out VIEW : View>(
 		override fun interceptUserAction(action: UserAction): UserAction {
 			return this@Section.interceptUserAction(action)
 		}
-	}
+	}.apply { connect() }
 
 	init {
 		parent.attachDisposableToResumePause { viewModel.states.subscribeBy(onNext = { render(it) }) }

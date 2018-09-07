@@ -5,6 +5,7 @@ import com.dadino.quickstart2.core.entities.UserAction
 import com.dadino.quickstart2.core.entities.UserActionable
 import com.jakewharton.rxrelay2.PublishRelay
 import io.reactivex.Observable
+import io.reactivex.disposables.Disposable
 
 interface Actionable : UserActionable {
 	val userActionsHandler: UserActionsHandler
@@ -42,8 +43,14 @@ abstract class UserActionsHandler : UserActionable {
 				.refCount()
 	}
 
-	init {
-		userActions().subscribe()
+	private var userActionsDisposable: Disposable? = null
+
+	fun connect() {
+		userActionsDisposable = userActions().subscribe()
+	}
+
+	fun disconnect() {
+		userActionsDisposable?.dispose()
 	}
 
 	open fun collectUserActions(): Observable<UserAction> {

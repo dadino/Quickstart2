@@ -22,6 +22,7 @@ abstract class BaseActivity : AppCompatActivity(), Actionable, DisposableLifecyc
 		internalInitViews()
 	}
 
+
 	private fun internalInitViews() {
 		initViews()
 		userActionsHandler = object : UserActionsHandler() {
@@ -33,6 +34,12 @@ abstract class BaseActivity : AppCompatActivity(), Actionable, DisposableLifecyc
 				return this@BaseActivity.interceptUserAction(action)
 			}
 		}
+		userActionsHandler.connect()
+	}
+
+	override fun onDestroy() {
+		userActionsHandler.disconnect()
+		super.onDestroy()
 	}
 
 	abstract fun initViews()
