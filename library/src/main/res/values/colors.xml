@@ -8,6 +8,11 @@
     <color name="colorHighlight">@color/md_orange_200</color>
     <color name="colorAccentBackground">@color/md_orange_A100</color>
 
+    <color name="colorError">@color/md_red_500</color>
+    <color name="colorSuccess">@color/md_green_500</color>
+    <color name="textColorOnError">@color/white_primary_text</color>
+    <color name="textColorOnSuccess">@color/white_primary_text</color>
+
     <color name="white_primary_text">#ffffffff</color>
     <color name="white_secondary_text">#b3ffffff</color>
     <color name="white_hint_text">#4dffffff</color>
