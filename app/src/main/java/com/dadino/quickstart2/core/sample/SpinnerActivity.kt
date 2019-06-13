@@ -19,7 +19,7 @@ import com.dadino.quickstart2.core.sample.viewmodels.SpinnerViewModel
 import com.dadino.quickstart2.core.sample.widgets.ExampleSpinner
 import com.jakewharton.rxbinding2.view.clicks
 import io.reactivex.Observable
-import org.koin.android.architecture.ext.viewModel
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class SpinnerActivity : BaseActivity() {
 	private val spinner: ExampleSpinner by lazy { findViewById<ExampleSpinner>(R.id.example_data_spinner) }

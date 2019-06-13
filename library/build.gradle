@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'com.novoda.bintray-release' // must be applied after your artifact generating plugin (eg. java / com.android.library)
+apply plugin: "guru.stefma.bintrayrelease"
 
 buildscript {
     repositories {
@@ -14,20 +14,14 @@ buildscript {
 }
 
 publish {
-    userOrg = 'dadino'
-    repoName = 'quickstart2'
-    groupId = 'com.dadino.quickstart2'
+    userOrg = "dadino"
     artifactId = 'core'
-    publishVersion = rootProject.versionName
+    repoName = "quickstart2"
     desc = 'Basic toolbox to quickly start coding'
     website = 'https://github.com/dadino/basictoolbox'
     bintrayUser = 'dadino'
     bintrayKey = 'e23c567c5d38bdae821f0b74e855b07b37487762'
-    //bintray.gpg.password=88dadino88
-    autoPublish = true
-    //./gradlew clean build bintrayUpload -PbintrayUser=dadino -PbintrayKey=e23c567c5d38bdae821f0b74e855b07b37487762 -PdryRun=false
 }
-
 
 android {
     compileSdkVersion rootProject.compileSdk
@@ -74,10 +68,10 @@ dependencies {
     api "com.android.support:customtabs:${rootProject.supportLibVersion}"
 
     //Square
-    api 'com.squareup.retrofit2:retrofit:2.3.0'
-    api 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
-    api 'com.squareup.retrofit2:converter-gson:2.3.0'
-    api 'com.squareup.okhttp3:okhttp:3.8.0'
+    api 'com.squareup.retrofit2:retrofit:2.5.0'
+    api 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
+    api 'com.squareup.retrofit2:converter-gson:2.5.0'
+    api 'com.squareup.okhttp3:okhttp:3.12.1'
     api('com.github.ihsanbal:LoggingInterceptor:2.0.2') {
         exclude group: 'org.json', module: 'json'
     }
@@ -91,16 +85,16 @@ dependencies {
     kapt "android.arch.lifecycle:compiler:${rootProject.archRoomVersion}"
 
     //RxJava
-    api 'io.reactivex.rxjava2:rxjava:2.1.6'
-    api 'io.reactivex.rxjava2:rxkotlin:2.0.3'
-    api 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    api 'com.jakewharton.rxrelay2:rxrelay:2.0.0'
-    api 'com.jakewharton.rx2:replaying-share-kotlin:2.0.0'
-    api 'com.jakewharton.rxbinding2:rxbinding-kotlin:2.0.0'
-    api 'com.jakewharton.rxbinding2:rxbinding-support-v4-kotlin:2.0.0'
-    api 'com.jakewharton.rxbinding2:rxbinding-appcompat-v7-kotlin:2.0.0'
-    api 'com.jakewharton.rxbinding2:rxbinding-design-kotlin:2.0.0'
-    api 'com.jakewharton.rxbinding2:rxbinding-recyclerview-v7-kotlin:2.0.0'
+    api 'io.reactivex.rxjava2:rxjava:2.2.5'
+    api 'io.reactivex.rxjava2:rxkotlin:2.3.0'
+    api 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    api 'com.jakewharton.rxrelay2:rxrelay:2.1.0'
+    api 'com.jakewharton.rx2:replaying-share-kotlin:2.1.0'
+    api 'com.jakewharton.rxbinding2:rxbinding-kotlin:2.2.0'
+    api 'com.jakewharton.rxbinding2:rxbinding-support-v4-kotlin:2.2.0'
+    api 'com.jakewharton.rxbinding2:rxbinding-appcompat-v7-kotlin:2.2.0'
+    api 'com.jakewharton.rxbinding2:rxbinding-design-kotlin:2.2.0'
+    api 'com.jakewharton.rxbinding2:rxbinding-recyclerview-v7-kotlin:2.2.0'
 }
 
 tasks.withType(Javadoc).all {

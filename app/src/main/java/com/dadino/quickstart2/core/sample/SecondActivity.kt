@@ -12,7 +12,7 @@ import com.dadino.quickstart2.core.sample.viewmodels.SpinnerViewModel
 import com.jakewharton.rxbinding2.view.clicks
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_second.*
-import org.koin.android.architecture.ext.viewModel
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class SecondActivity : BaseActivity() {
 
