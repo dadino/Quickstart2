@@ -13,6 +13,8 @@ buildscript {
     }
 }
 
+version = rootProject.versionName
+group = rootProject.groupId
 publish {
     userOrg = "dadino"
     artifactId = 'core'

@@ -44,6 +44,7 @@ ext {
 
     versionCode = 26
     versionName = "0.10.0"
+    groupId = "com.dadino.quickstart2"
 }
 // ./gradlew clean build bintrayUpload -PdryRun=false
 
