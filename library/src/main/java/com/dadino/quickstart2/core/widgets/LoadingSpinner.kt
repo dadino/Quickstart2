@@ -1,12 +1,12 @@
 package com.dadino.quickstart2.core.widgets
 
 import android.content.Context
-import android.support.annotation.StringRes
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.annotation.StringRes
 import com.dadino.quickstart2.core.R
 import com.dadino.quickstart2.core.adapters.BaseSpinnerAdapter
 import com.dadino.quickstart2.core.entities.DoNotReactToThisAction
@@ -14,7 +14,7 @@ import com.dadino.quickstart2.core.entities.UserAction
 import com.dadino.quickstart2.core.entities.UserActionable
 import com.dadino.quickstart2.core.utils.gone
 import com.dadino.quickstart2.core.utils.visible
-import com.jakewharton.rxbinding2.widget.RxAdapterView
+import com.jakewharton.rxbinding3.widget.itemSelections
 import io.reactivex.Observable
 
 abstract class LoadingSpinner<ITEM, T : BaseSpinnerAdapter<ITEM, *>> : FrameLayout, UserActionable {
@@ -141,7 +141,7 @@ abstract class LoadingSpinner<ITEM, T : BaseSpinnerAdapter<ITEM, *>> : FrameLayo
 
 
 	override fun userActions(): Observable<UserAction> {
-		return RxAdapterView.itemSelections(spinner).map { position ->
+		return spinner.itemSelections().map { position ->
 			when (position) {
 				transientSelectedPosition -> {
 					Log.d("Spinner", "New position is $position, old position is $transientSelectedPosition, DO NOT REACT")

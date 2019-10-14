@@ -1,7 +1,7 @@
 package com.dadino.quickstart2.core.adapters.holders
 
-import android.support.v7.widget.RecyclerView
 import android.view.View
+import androidx.recyclerview.widget.RecyclerView
 import com.dadino.quickstart2.core.entities.UserActionable
 
 

@@ -1,11 +1,11 @@
 package com.dadino.quickstart2.core.widgets
 
 import android.content.Context
-import android.support.annotation.StringRes
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
+import androidx.annotation.StringRes
 import com.dadino.quickstart2.core.R
 import com.dadino.quickstart2.core.utils.goneIf
 import kotlinx.android.synthetic.main.view_labeled_textview.view.*
