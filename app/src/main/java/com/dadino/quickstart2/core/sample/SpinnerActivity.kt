@@ -1,12 +1,12 @@
 package com.dadino.quickstart2.core.sample
 
-import android.arch.lifecycle.Lifecycle
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
+import androidx.lifecycle.Lifecycle
 import com.dadino.quickstart2.core.BaseActivity
 import com.dadino.quickstart2.core.entities.DoNotReactToThisAction
 import com.dadino.quickstart2.core.entities.Signal
@@ -17,7 +17,7 @@ import com.dadino.quickstart2.core.sample.viewmodels.CounterViewModel
 import com.dadino.quickstart2.core.sample.viewmodels.SpinnerState
 import com.dadino.quickstart2.core.sample.viewmodels.SpinnerViewModel
 import com.dadino.quickstart2.core.sample.widgets.ExampleSpinner
-import com.jakewharton.rxbinding2.view.clicks
+import com.jakewharton.rxbinding3.view.clicks
 import io.reactivex.Observable
 import org.koin.android.viewmodel.ext.android.viewModel
 

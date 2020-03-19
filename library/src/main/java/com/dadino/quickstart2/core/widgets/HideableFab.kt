@@ -1,8 +1,8 @@
 package com.dadino.quickstart2.core.widgets
 
 import android.content.Context
-import android.support.design.widget.FloatingActionButton
 import android.util.AttributeSet
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 open class HideableFab : FloatingActionButton {
 

@@ -1,11 +1,11 @@
 package com.dadino.quickstart2.core.adapters
 
 import android.content.Context
-import android.support.annotation.LayoutRes
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SpinnerAdapter
+import androidx.annotation.LayoutRes
 import com.dadino.quickstart2.core.adapters.holders.BaseHolder
 import com.dadino.quickstart2.core.entities.UserAction
 import com.dadino.quickstart2.core.entities.UserActionable
