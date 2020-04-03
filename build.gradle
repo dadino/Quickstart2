@@ -6,7 +6,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.6.1'
+        classpath 'com.android.tools.build:gradle:3.6.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
 
@@ -35,8 +35,8 @@ ext {
     minSdk = 16
     targetSdk = 28
 
-    versionCode = 29
-    versionName = "1.1.0"
+    versionCode = 30
+    versionName = "1.1.1"
     groupId = "com.dadino.quickstart2"
 }
 // ./gradlew clean build bintrayUpload -PdryRun=false

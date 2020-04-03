@@ -44,5 +44,4 @@ class SecondActivity : BaseActivity() {
 
 		Toast.makeText(this, "Session: ${spinnerViewModel.state().session}", Toast.LENGTH_LONG).show()
 	}
-
 }

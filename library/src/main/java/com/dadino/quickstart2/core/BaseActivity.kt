@@ -3,9 +3,7 @@ package com.dadino.quickstart2.core
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
-import com.dadino.quickstart2.core.components.Actionable
-import com.dadino.quickstart2.core.components.BaseViewModel
-import com.dadino.quickstart2.core.components.UserActionsHandler
+import com.dadino.quickstart2.core.components.*
 import com.dadino.quickstart2.core.entities.UserAction
 import com.dadino.quickstart2.core.interfaces.DisposableLifecycleHolder
 import com.dadino.quickstart2.core.utils.DisposableLifecycle
