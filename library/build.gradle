@@ -82,7 +82,12 @@ dependencies {
     api 'com.squareup.retrofit2:retrofit:2.7.2'
     api 'com.squareup.retrofit2:adapter-rxjava2:2.7.2'
     api 'com.squareup.retrofit2:converter-gson:2.7.2'
-    api 'com.squareup.okhttp3:okhttp:3.14.7'
+    //api 'com.squareup.okhttp3:okhttp:3.14.7'
+    api("com.squareup.okhttp3:okhttp:3.12.8") {
+        force = true
+    }
+
+    implementation "com.squareup.okhttp3:logging-interceptor:3.12.8"
     api('com.github.ihsanbal:LoggingInterceptor:3.0.0') {
         exclude group: 'org.json', module: 'json'
     }
