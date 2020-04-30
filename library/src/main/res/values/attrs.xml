@@ -16,11 +16,4 @@
         <attr name="lt_label" format="string" />
         <attr name="lt_value" format="string" />
     </declare-styleable>
-
-    <declare-styleable name="CompountVector">
-        <attr name="drawableLeftCompat" format="reference" />
-        <attr name="drawableRightCompat" format="reference" />
-        <attr name="drawableTopCompat" format="reference" />
-        <attr name="drawableBottomCompat" format="reference" />
-    </declare-styleable>
 </resources>

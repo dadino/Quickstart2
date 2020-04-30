@@ -8,17 +8,13 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import com.dadino.quickstart2.core.BaseActivity
-import com.dadino.quickstart2.core.entities.DoNotReactToThisAction
-import com.dadino.quickstart2.core.entities.Signal
-import com.dadino.quickstart2.core.entities.UserAction
+import com.dadino.quickstart2.core.entities.*
 import com.dadino.quickstart2.core.sample.entities.*
-import com.dadino.quickstart2.core.sample.viewmodels.CounterState
-import com.dadino.quickstart2.core.sample.viewmodels.CounterViewModel
-import com.dadino.quickstart2.core.sample.viewmodels.SpinnerState
-import com.dadino.quickstart2.core.sample.viewmodels.SpinnerViewModel
+import com.dadino.quickstart2.core.sample.viewmodels.*
 import com.dadino.quickstart2.core.sample.widgets.ExampleSpinner
 import com.jakewharton.rxbinding3.view.clicks
 import io.reactivex.Observable
+import okhttp3.OkHttpClient
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class SpinnerActivity : BaseActivity() {
@@ -35,12 +31,14 @@ class SpinnerActivity : BaseActivity() {
 	private val spinnerViewModel: SpinnerViewModel by viewModel()
 	private val counterViewModel: CounterViewModel by viewModel()
 
-
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
 		attachViewModel(spinnerViewModel) { render(it) }
 		attachViewModel(counterViewModel, Lifecycle.State.RESUMED) { render(it) }
+
+		val a = OkHttpClient.Builder()
+			.build()
 	}
 
 	override fun initViews() {
@@ -64,7 +62,8 @@ class SpinnerActivity : BaseActivity() {
 	}
 
 	override fun collectUserActions(): Observable<UserAction> {
-		return Observable.merge(listOf(
+		return Observable.merge(
+			listOf(
 				idle.clicks().map { OnSpinnerIdleClicked() },
 				loading.clicks().map { OnSpinnerLoadingClicked() },
 				error.clicks().map { OnSpinnerErrorClicked() },
@@ -74,7 +73,7 @@ class SpinnerActivity : BaseActivity() {
 				counterButton.clicks().map { OnAdvanceCounterClicked() },
 				counterStateButton.clicks().map { OnShowCounterStateClicked() },
 				spinner.userActions()
-		)
+			)
 		)
 	}
 

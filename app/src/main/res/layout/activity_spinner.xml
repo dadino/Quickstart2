@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -18,59 +19,71 @@
         app:ls_label="Label"
         app:ls_retry="Riprova" />
 
-    <Button
-        android:id="@+id/example_data_idle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Idle"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/example_data_loading"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+	<com.google.android.material.button.MaterialButton
+		android:id="@+id/example_data_idle"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="16dp"
+		android:layout_marginEnd="8dp"
+		android:layout_marginRight="8dp"
+		android:layout_marginBottom="8dp"
+		android:text="Idle"
+		app:layout_constraintBottom_toTopOf="@+id/example_data_error"
+		app:layout_constraintEnd_toStartOf="@+id/example_data_loading"
+		app:layout_constraintHorizontal_bias="0.5"
+		app:layout_constraintHorizontal_chainStyle="packed"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/example_data_spinner"
+		app:layout_constraintVertical_bias="0.0"
+		app:layout_constraintVertical_chainStyle="packed" />
 
-    <Button
-        android:id="@+id/example_data_loading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Loading"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/example_data_error"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/example_data_idle"
-        app:layout_constraintTop_toTopOf="parent" />
+	<com.google.android.material.button.MaterialButton
+		android:id="@+id/example_data_loading"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="8dp"
+		android:layout_marginLeft="8dp"
+		android:layout_marginTop="16dp"
+		android:layout_marginBottom="8dp"
+		android:text="Loading"
+		app:layout_constraintBottom_toTopOf="@+id/example_data_done"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintHorizontal_bias="0.5"
+		app:layout_constraintStart_toEndOf="@+id/example_data_idle"
+		app:layout_constraintTop_toBottomOf="@+id/example_data_spinner"
+		app:layout_constraintVertical_bias="0.0"
+		app:layout_constraintVertical_chainStyle="packed" />
 
-    <Button
-        android:id="@+id/example_data_error"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Error"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/example_data_done"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/example_data_loading"
-        app:layout_constraintTop_toTopOf="parent" />
+	<com.google.android.material.button.MaterialButton
+		android:id="@+id/example_data_error"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="8dp"
+		android:layout_marginEnd="8dp"
+		android:layout_marginRight="8dp"
+		android:text="Error"
+		app:layout_constraintBottom_toTopOf="@+id/example_data_counter"
+		app:layout_constraintEnd_toStartOf="@+id/example_data_done"
+		app:layout_constraintHorizontal_bias="0.5"
+		app:layout_constraintHorizontal_chainStyle="packed"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/example_data_idle" />
 
-    <Button
-        android:id="@+id/example_data_done"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Done"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/example_data_error"
-        app:layout_constraintTop_toTopOf="parent" />
+	<com.google.android.material.button.MaterialButton
+		android:id="@+id/example_data_done"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="8dp"
+		android:layout_marginLeft="8dp"
+		android:layout_marginTop="8dp"
+		android:text="Done"
+		app:layout_constraintBottom_toTopOf="@+id/example_data_counter_state"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintHorizontal_bias="0.5"
+		app:layout_constraintStart_toEndOf="@+id/example_data_error"
+		app:layout_constraintTop_toBottomOf="@+id/example_data_loading" />
 
-    <Button
+	<com.google.android.material.button.MaterialButton
         android:id="@+id/example_data_go_to_second_page"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -79,7 +92,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
+	<com.google.android.material.button.MaterialButton
         android:id="@+id/example_data_save_session"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -88,7 +101,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
+	<com.google.android.material.button.MaterialButton
         android:id="@+id/example_data_counter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -97,13 +110,13 @@
         app:layout_constraintBottom_toTopOf="@+id/example_data_save_session"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/example_data_counter_state"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:text="Counter state"
-        app:layout_constraintBaseline_toBaselineOf="@+id/example_data_counter"
-        app:layout_constraintStart_toEndOf="@+id/example_data_counter" />
+	<com.google.android.material.button.MaterialButton
+		android:id="@+id/example_data_counter_state"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="8dp"
+		android:layout_marginLeft="8dp"
+		android:text="Counter state"
+		app:layout_constraintBaseline_toBaselineOf="@+id/example_data_counter"
+		app:layout_constraintStart_toEndOf="@+id/example_data_counter" />
 </androidx.constraintlayout.widget.ConstraintLayout>
