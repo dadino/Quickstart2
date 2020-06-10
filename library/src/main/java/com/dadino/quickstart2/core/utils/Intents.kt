@@ -8,7 +8,6 @@ import android.text.TextUtils
 import androidx.core.app.ShareCompat
 import com.dadino.quickstart2.core.R
 
-
 object Intents {
 
 	fun openDialer(context: Context, phoneNumber: String?) {
@@ -21,10 +20,21 @@ object Intents {
 	fun openWebsite(context: Context, website: String?) {
 		if (TextUtils.isEmpty(website)) return
 		website?.let {
-			val isValidUrl = it.startsWith("http") || it.startsWith("http")
+			val isValidUrl = it.startsWith("http") || it.startsWith("https")
 			val url = if (isValidUrl.not()) "http://$it" else it
 			val intent = Intent(Intent.ACTION_VIEW)
 			intent.data = Uri.parse(url)
+			safeOpen(context, intent)
+		}
+	}
+
+	fun openEmail(context: Context, email: String?) {
+		if (TextUtils.isEmpty(email)) return
+		email?.let {
+			val intent = Intent(Intent.ACTION_SEND)
+			intent.putExtra(Intent.EXTRA_EMAIL, arrayOf<String>(email))
+			intent.type = "message/rfc822"
+
 			safeOpen(context, intent)
 		}
 	}
@@ -36,10 +46,19 @@ object Intents {
 			val url = if (isValidUrl.not()) "http://$it" else it
 
 			ShareCompat.IntentBuilder.from(context)
-					.setType("text/plain")
-					.setChooserTitle(R.string.share_website_label)
-					.setText(url)
-					.startChooser()
+				.setType("text/plain")
+				.setChooserTitle(R.string.share_website_label)
+				.setText(url)
+				.startChooser()
+		}
+	}
+
+	fun openApp(context: Context, packageName: String) {
+		val launchIntent = context.packageManager.getLaunchIntentForPackage(packageName)
+		if (launchIntent != null) {
+			context.startActivity(launchIntent)
+		} else {
+			openWebsite(context, "https://play.google.com/store/apps/details?id=$packageName")
 		}
 	}
 
@@ -58,19 +77,6 @@ object Intents {
 
 		if (intent.resolveActivity(context.packageManager) != null) {
 			context.startActivity(chooser)
-		}
-	}
-
-	fun openSacroMonteVarese(context: Context) {
-		openApp(context, "com.eb.mobbingProject.SacroMonteVa")
-	}
-
-	private fun openApp(context: Context, packageName: String) {
-		val launchIntent = context.packageManager.getLaunchIntentForPackage(packageName)
-		if (launchIntent != null) {
-			context.startActivity(launchIntent)
-		} else {
-			openWebsite(context, "https://play.google.com/store/apps/details?id=$packageName")
 		}
 	}
 }
