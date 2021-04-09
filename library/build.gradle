@@ -2,28 +2,15 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: "guru.stefma.bintrayrelease"
 
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.novoda:bintray-release:0.8.1'
-    }
+ext {
+    PUBLISH_GROUP_ID = rootProject.groupId
+    PUBLISH_VERSION = rootProject.versionName
+    PUBLISH_ARTIFACT_ID = rootProject.artifactId
 }
 
-version = rootProject.versionName
-group = rootProject.groupId
-publish {
-    userOrg = "dadino"
-    artifactId = 'core'
-    repoName = "quickstart2"
-    desc = 'Basic toolbox to quickly start coding'
-    website = 'https://github.com/dadino/basictoolbox'
-    bintrayUser = 'dadino'
-    bintrayKey = 'e23c567c5d38bdae821f0b74e855b07b37487762'
-}
+apply from: "${rootProject.projectDir}/scripts/publish-mavencentral.gradle"
+
 
 android {
     compileSdkVersion rootProject.compileSdk

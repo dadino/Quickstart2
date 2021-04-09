@@ -5,6 +5,8 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Quickstart2.iml" filepath="$PROJECT_DIR$/.idea/modules/Quickstart2.iml" group="Quickstart2" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Quickstart2-app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Quickstart2-app.iml" group="Quickstart2/app" />
       <module fileurl="file://$PROJECT_DIR$/.idea/Quickstart2Core.iml" filepath="$PROJECT_DIR$/.idea/Quickstart2Core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Quickstart2Core.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Quickstart2Core.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/library/Quickstart2Core.library.iml" filepath="$PROJECT_DIR$/.idea/modules/library/Quickstart2Core.library.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/library/com.dadino.quickstart2-library.iml" filepath="$PROJECT_DIR$/.idea/modules/library/com.dadino.quickstart2-library.iml" group="Quickstart2/library" />
       <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
