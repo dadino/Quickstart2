@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion rootProject.compileSdk
@@ -14,11 +13,29 @@ android {
         versionCode rootProject.versionCode
         versionName rootProject.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        multiDexEnabled = true
+    }
+    signingConfigs {
+        releaseConfig {
+            storeFile file("quickstart_keystore.jks")
+            storePassword("quickstart")
+            keyAlias "dadino"
+            keyPassword "quickstart"
+        }
     }
     buildTypes {
         release {
             minifyEnabled false
+            debuggable false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.releaseConfig
+        }
+        debug {
+            initWith release
+
+            minifyEnabled false
+            debuggable true
         }
     }
 

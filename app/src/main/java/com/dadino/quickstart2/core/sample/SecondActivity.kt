@@ -9,9 +9,9 @@ import com.dadino.quickstart2.core.entities.UserAction
 import com.dadino.quickstart2.core.sample.entities.OnSaveSessionRequested
 import com.dadino.quickstart2.core.sample.viewmodels.SpinnerState
 import com.dadino.quickstart2.core.sample.viewmodels.SpinnerViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.jakewharton.rxbinding3.view.clicks
 import io.reactivex.Observable
-import kotlinx.android.synthetic.main.activity_second.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class SecondActivity : BaseActivity() {
@@ -20,7 +20,7 @@ class SecondActivity : BaseActivity() {
 
 	override fun initViews() {
 		setContentView(R.layout.activity_second)
-		setSupportActionBar(toolbar)
+		setSupportActionBar(findViewById(R.id.toolbar))
 
 		supportActionBar?.setDisplayHomeAsUpEnabled(true)
 	}
@@ -34,7 +34,7 @@ class SecondActivity : BaseActivity() {
 	}
 
 	override fun collectUserActions(): Observable<UserAction> {
-		return fab.clicks().map {
+		return findViewById<FloatingActionButton>(R.id.fab).clicks().map {
 			OnSaveSessionRequested("Second")
 		}
 	}
