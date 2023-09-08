@@ -1,24 +1,22 @@
-apply plugin: 'io.github.gradle-nexus.publish-plugin'
-
 buildscript {
-    ext.kotlin_version = '1.5.31'
+    ext.kotlin_version = '1.9.10'
     repositories {
-        maven { url 'https://plugins.gradle.org/m2/' }
         mavenCentral()
+        mavenLocal()
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.3'
+        classpath 'com.android.tools.build:gradle:8.1.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "io.github.gradle-nexus:publish-plugin:1.0.0"
     }
 }
 
 allprojects {
     repositories {
+        mavenCentral()
+        mavenLocal()
         google()
         maven { url 'https://jitpack.io' }
-        mavenCentral()
     }
 }
 
@@ -27,12 +25,12 @@ task clean(type: Delete) {
 }
 
 ext {
-    compileSdk = 29
-    minSdk = 16
-    targetSdk = 29
+    compileSdk = 34
+    minSdk = 21
+    targetSdk = 34
 
-    versionCode = 36
-    versionName = "1.1.7"
+    versionCode = 1200
+    versionName = "1.2.0"
 
     groupId = "io.github.dadino"
     artifactId = "quickstart2"

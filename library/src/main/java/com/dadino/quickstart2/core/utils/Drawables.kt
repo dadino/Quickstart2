@@ -17,6 +17,6 @@ object Drawables {
 	}
 
 	fun getSelectableBackground(context: Context): Drawable? {
-		return getDrawableFromAttrRes(R.attr.selectableItemBackground, context)
+		return getDrawableFromAttrRes(android.R.attr.selectableItemBackground, context)
 	}
 }

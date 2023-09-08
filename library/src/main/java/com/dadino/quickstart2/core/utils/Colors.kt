@@ -8,13 +8,13 @@ import com.dadino.quickstart2.core.R
 
 object Colors {
 	@ColorInt
-	fun getAccentColor(context: Context): Int = getThemeColor(context, R.attr.colorAccent)
+	fun getAccentColor(context: Context): Int = getThemeColor(context, android.R.attr.colorAccent)
 
 	@ColorInt
-	fun getPrimaryColor(context: Context): Int = getThemeColor(context, R.attr.colorPrimary)
+	fun getPrimaryColor(context: Context): Int = getThemeColor(context, android.R.attr.colorPrimary)
 
 	@ColorInt
-	fun getPrimaryDarkColor(context: Context): Int = getThemeColor(context, R.attr.colorPrimaryDark)
+	fun getPrimaryDarkColor(context: Context): Int = getThemeColor(context,android. R.attr.colorPrimaryDark)
 
 	@ColorInt
 	private fun getThemeColor(context: Context, colorId: Int): Int {

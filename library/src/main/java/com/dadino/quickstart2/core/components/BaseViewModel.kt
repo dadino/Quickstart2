@@ -12,7 +12,7 @@ import io.reactivex.Flowable
 import io.reactivex.functions.Consumer
 import io.reactivex.rxkotlin.subscribeBy
 
-abstract class BaseViewModel<STATE> : ViewModel() {
+abstract class BaseViewModel<STATE : Any> : ViewModel() {
 	private val reducer by lazy { reducer() }
 	private val initialState by lazy { initialState() }
 	private val userActionRelay: PublishRelay<UserAction> by lazy { PublishRelay.create<UserAction>() }
