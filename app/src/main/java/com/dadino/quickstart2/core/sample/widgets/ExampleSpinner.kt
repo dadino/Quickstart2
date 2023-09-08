@@ -49,7 +49,7 @@ class ExampleDataSpinnerAdapter : BaseSpinnerAdapter<ExampleData, ExampleDataHol
 
 	override fun modifyDropDownView(view: View): View {
 		return view.apply {
-			val padding = view.resources.getDimensionPixelSize(R.dimen._16dp)
+			val padding = view.resources.getDimensionPixelSize(com.dadino.quickstart2.core.R.dimen._16dp)
 			setPadding(padding, padding, padding, padding)
 		}
 	}
@@ -79,6 +79,6 @@ class ExampleDataHolder(view: View) : BaseHolder<ExampleData>(view) {
 	}
 
 	companion object {
-		const val layoutId: Int = R.layout.item_example_data
+		val layoutId: Int = R.layout.item_example_data
 	}
 }

@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 android {
+    namespace "com.dadino.quickstart2.core.sample"
     compileSdkVersion rootProject.compileSdk
 
     defaultConfig {
@@ -39,10 +40,10 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_17
+            targetCompatibility JavaVersion.VERSION_17
+        }
 }
 
 dependencies {
@@ -51,5 +52,5 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    implementation "io.insert-koin:koin-android-viewmodel:2.1.6"
+    implementation "io.insert-koin:koin-android-viewmodel:2.2.2"
 }
