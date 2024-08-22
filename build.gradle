@@ -6,7 +6,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.1.1'
+        classpath 'com.android.tools.build:gradle:8.2.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -29,14 +29,14 @@ ext {
     minSdk = 21
     targetSdk = 34
 
-    versionCode = 1200
-    versionName = "1.2.0"
+    versionCode = 1202
+    versionName = "1.2.2"
 
     groupId = "io.github.dadino"
     artifactId = "quickstart2"
 
-    ossrhUsername = System.properties['ossrhUsername']
-    ossrhPassword = System.properties['ossrhPassword']
     sonatypeStagingProfileId = System.properties['sonatypeStagingProfileId']
+    ossrhToken = System.properties['ossrhToken']
+    ossrhTokenPassword = System.properties['ossrhTokenPassword']
 }
 
