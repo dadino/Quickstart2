@@ -1,12 +1,12 @@
 buildscript {
-    ext.kotlin_version = '1.9.10'
+    ext.kotlin_version = '1.9.21'
     repositories {
         mavenCentral()
         mavenLocal()
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.2.2'
+        classpath 'com.android.tools.build:gradle:8.5.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -29,8 +29,8 @@ ext {
     minSdk = 21
     targetSdk = 34
 
-    versionCode = 1202
-    versionName = "1.2.2"
+    versionCode = 1205
+    versionName = "1.2.5"
 
     groupId = "io.github.dadino"
     artifactId = "quickstart2"

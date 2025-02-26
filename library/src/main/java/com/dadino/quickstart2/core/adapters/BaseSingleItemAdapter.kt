@@ -2,51 +2,61 @@ package com.dadino.quickstart2.core.adapters
 
 import com.dadino.quickstart2.core.adapters.holders.BaseHolder
 
-abstract class BaseSingleItemAdapter<ITEM, HOLDER : BaseHolder<ITEM>> : BaseAdapter<ITEM, HOLDER>() {
+abstract class BaseSingleItemAdapter<ITEM, HOLDER : BaseHolder<ITEM>> :
+    BaseAdapter<ITEM, HOLDER>() {
 
-	protected var layoutInflater: android.view.LayoutInflater? = null
-	var item: ITEM? = null
-		set(item) {
-			field = item
-			notifyDataSetChanged()
-		}
+    protected var layoutInflater: android.view.LayoutInflater? = null
+    var item: ITEM? = null
+        set(item) {
+            field = item
+            onItemChanged(item)
+            updateItemsInAdapter()
+        }
 
-	init {
-		setHasStableIds(useStableId())
-	}
+    init {
+        setHasStableIds(useStableId())
+    }
 
-	protected fun useStableId(): Boolean {
-		return false
-	}
+    open fun onItemChanged(item: ITEM?) {}
+    open fun updateItemsInAdapter() {
+        notifyDataSetChanged()
+    }
 
-	protected fun inflater(context: android.content.Context): android.view.LayoutInflater {
-		if (layoutInflater == null) layoutInflater = android.view.LayoutInflater.from(context)
-		return layoutInflater!!
-	}
+    protected fun useStableId(): Boolean {
+        return false
+    }
 
-	override fun onCreateViewHolder(parent: android.view.ViewGroup, viewType: Int): HOLDER {
-		val holder = getHolder(parent, viewType)
-		attachListenerToHolder(holder)
-		return holder
-	}
+    protected fun inflater(context: android.content.Context): android.view.LayoutInflater {
+        if (layoutInflater == null) layoutInflater = android.view.LayoutInflater.from(context)
+        return layoutInflater!!
+    }
 
-	override fun onBindViewHolder(holder: HOLDER, position: Int) {
-		item?.let { bindItem(holder, it, position) }
-	}
+    override fun onCreateViewHolder(parent: android.view.ViewGroup, viewType: Int): HOLDER {
+        val holder = getHolder(parent, viewType)
+        attachListenerToHolder(holder)
+        return holder
+    }
 
-	override abstract fun getItemId(position: Int): Long
+    override fun onBindViewHolder(holder: HOLDER, position: Int) {
+        item?.let { bindItem(holder, it, position) }
+    }
 
-	fun isLastItem(position: Int): Boolean {
-		return position == itemCount - 1
-	}
+    override abstract fun getItemId(position: Int): Long
 
-	fun bindItem(holder: HOLDER, item: ITEM, position: Int) {
-		holder.bindItem(item, position)
-	}
+    fun isLastItem(position: Int): Boolean {
+        return position == itemCount - 1
+    }
 
-	protected fun inflate(parent: android.view.ViewGroup, @androidx.annotation.LayoutRes layoutId: Int): android.view.View {
-		return inflater(parent.context).inflate(layoutId, parent, false)
-	}
+    fun bindItem(holder: HOLDER, item: ITEM, position: Int) {
+        holder.bindItem(item, position)
+    }
 
-	protected abstract fun getHolder(parent: android.view.ViewGroup, viewType: Int): HOLDER
+    protected fun inflate(
+        parent: android.view.ViewGroup,
+        @androidx.annotation.LayoutRes layoutId: Int
+    ): android.view.View {
+        return inflater(parent.context).inflate(layoutId, parent, false)
+    }
+
+    protected abstract fun getHolder(parent: android.view.ViewGroup, viewType: Int): HOLDER
 }
